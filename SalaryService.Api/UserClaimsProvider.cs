@@ -12,6 +12,7 @@ namespace SalaryService.Api
         public const string ViewSalaryAndDocumentsData = "ViewSalaryAndDocumentsData";
         public const string EditFullEmployeesData = "EditFullEmployeesData";
         public const string AccessAnalyticalForecastsPage = "AccessAnalyticalForecastsPage";
+        public const string IsAccountsHardDeleteAllowed = "IsAccountsHardDeleteAllowed";
 
         public Task<List<Claim>> GetUserClaimsAsync(string login)
         {
