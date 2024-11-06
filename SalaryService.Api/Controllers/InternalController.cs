@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SalaryService.Api.Models;
 using SalaryService.Application.Dtos;
 using SalaryService.Application.Services;
+using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
 
 namespace SalaryService.Api.Controllers;
 
@@ -36,6 +37,13 @@ public class InternalController : ControllerBase
 
             return Problem(message, null, InternalServerErrorCode);
         }
+    }
+
+    [RequiresPermission(UserClaimsProvider.IsAccountsHardDeleteAllowed)]
+    [HttpDelete("delete-employee")]
+    public async Task DeleteEmployeeAsync([FromBody] EmployeeDeletionParameters employeeDeletionParameters)
+    {
+        await _employeeService.DeleteAsync(employeeDeletionParameters);
     }
 
     [HttpGet("get-employee")]

@@ -12,6 +12,7 @@ namespace SalaryService.Application.Services;
 public class EmployeesService
 {
     private readonly EmployeeCreationCommand _employeeCreationCommand;
+    private readonly EmployeeDeletionCommand _employeeDeletionCommand;
     private readonly EmployeeQuery _employeeQuery;
     private readonly IEmployeesQuery _employeesQuery;
     private readonly ProfileUpdateCommand _profileUpdateCommand;
@@ -24,6 +25,7 @@ public class EmployeesService
 
     public EmployeesService(
         EmployeeCreationCommand createEmployeeCommandHandler,
+        EmployeeDeletionCommand deleteEmployeeCommandHandler,
         ProfileUpdateCommand updateProfileCommandHandler,
         EmployeeUpdateParametersValidator employeeUpdateParametersValidator,
         EmployeeUpdateTransaction employeeUpdateTransaction,
@@ -35,6 +37,7 @@ public class EmployeesService
         ProfileUpdatingParametersValidator profileUpdatingParametersValidator)
     {
         _employeeCreationCommand = createEmployeeCommandHandler;
+        _employeeDeletionCommand = deleteEmployeeCommandHandler;
         _profileUpdateCommand = updateProfileCommandHandler;
         _employeeUpdateParametersValidator = employeeUpdateParametersValidator;
         _employeeUpdateTransaction = employeeUpdateTransaction;
@@ -74,6 +77,11 @@ public class EmployeesService
     public async Task CreateAsync(EmployeeCreationParameters parameters)
     {
         await _employeeCreationCommand.ExecuteAsync(parameters);
+    }
+
+    public async Task DeleteAsync(EmployeeDeletionParameters parameters)
+    {
+        await _employeeDeletionCommand.ExecuteAsync(parameters);
     }
 
     public async Task UpdateAsync(EmployeeUpdateDto request)
