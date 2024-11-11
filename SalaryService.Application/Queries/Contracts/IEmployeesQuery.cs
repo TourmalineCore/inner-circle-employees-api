@@ -1,6 +1,5 @@
-﻿using SalaryService.Domain;
-
-namespace SalaryService.Application.Queries.Contracts;
+﻿using Core;
+namespace Application.Queries.Contracts;
 
 public interface IEmployeesQuery
 {

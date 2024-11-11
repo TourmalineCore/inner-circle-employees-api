@@ -1,7 +1,7 @@
 using FluentValidation;
 using FluentValidation.Validators;
 
-namespace SalaryService.Application.Validators;
+namespace Application.Validators;
 
 public class PhoneNumberValidator<T> : PropertyValidator<T, string>
 {
@@ -14,19 +14,19 @@ public class PhoneNumberValidator<T> : PropertyValidator<T, string>
 
     public override bool IsValid(ValidationContext<T> context, string phoneNumber)
     {
-        if (string.IsNullOrEmpty(phoneNumber))
+        if(string.IsNullOrEmpty(phoneNumber))
         {
             _errorMessage = "The phone number can't be empty";
             return false;
         }
 
-        if (!phoneNumber.StartsWith(RussiaCountryCode))
+        if(!phoneNumber.StartsWith(RussiaCountryCode))
         {
             _errorMessage = "The phone number must start with +7";
             return false;
         }
 
-        if (phoneNumber.Length != PhoneNumberLengthWithRussiaCountryCode)
+        if(phoneNumber.Length != PhoneNumberLengthWithRussiaCountryCode)
         {
             _errorMessage = "The length of the phone number must consist of 11 digits";
             return false;

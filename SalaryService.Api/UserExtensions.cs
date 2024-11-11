@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace SalaryService.Api
+namespace Api
 {
     public static class UserExtensions
     {
@@ -17,7 +17,7 @@ namespace SalaryService.Api
         {
             var tenantId = context.FindFirstValue(TenantIdClaimType);
 
-            if (string.IsNullOrEmpty(tenantId))
+            if(string.IsNullOrEmpty(tenantId))
             {
                 throw new NullReferenceException("Tenant id is null or empty");
             }

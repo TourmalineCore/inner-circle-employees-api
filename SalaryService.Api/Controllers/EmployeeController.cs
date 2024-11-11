@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Api;
+using Api.Comparers;
+using Api.Responses;
+using Application.Dtos;
+using Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SalaryService.Api.Comparers;
-using SalaryService.Api.Responses;
-using SalaryService.Application.Dtos;
-using SalaryService.Application.Services;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
 
-namespace SalaryService.Api.Controllers;
+namespace Api.Controllers;
 
 [Authorize]
 [Route("api/employees")]
@@ -34,7 +35,7 @@ public class EmployeeController : Controller
         var tenantId = User.GetTenantId();
         var userIsAvailableToViewSalaryAndDocumentsData = User.IsAvailableToViewSalaryAndDocumentData();
 
-        if (!userIsAvailableToViewSalaryAndDocumentsData)
+        if(!userIsAvailableToViewSalaryAndDocumentsData)
         {
             var currentEmployees = await _employeesService.GetCurrentEmployeesAsync(tenantId);
             return currentEmployees

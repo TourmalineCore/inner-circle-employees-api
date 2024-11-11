@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using SalaryService.Api.Models;
 using System.Net;
+using Api.Models;
 
-namespace SalaryService.Api;
+namespace Api;
 
 public static class ExceptionMiddlewareExtensions
 {
@@ -15,7 +15,7 @@ public static class ExceptionMiddlewareExtensions
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-                if (contextFeature != null)
+                if(contextFeature != null)
                 {
                     await context.Response.WriteAsync(new ErrorDetails()
                     {

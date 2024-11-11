@@ -1,6 +1,6 @@
-﻿using NodaTime;
-using SalaryService.Api.Comparers;
-using SalaryService.Domain;
+﻿using Api.Comparers;
+using Core;
+using NodaTime;
 
 namespace SalaryService.Tests;
 
@@ -11,8 +11,8 @@ public class EmployeesComparerTests
     {
         var unofficialEmployees = new List<Employee>
         {
-            new("aaa", "aaa", "aaa", "test1@tourmalinecore.com"),
-            new("abc", "abc", "abc", "test2@tourmalinecore.com")
+            new("aaa", "aaa", "aaa", "test1@tourmalinecore.com", 1L),
+            new("abc", "abc", "abc", "test2@tourmalinecore.com", 1L)
         };
 
         var orderedEmployees = unofficialEmployees.OrderBy(x => x, new EmployeesComparer()).ToList();
@@ -24,11 +24,11 @@ public class EmployeesComparerTests
     [Fact]
     public void OfficialEmployeesShouldBeSortedByPersonnelNumber()
     {
-        var employee1 = new Employee("employee1", "employee1", "employee1", "employee1@tourmalinecore.com", true);
+        var employee1 = new Employee("employee1", "employee1", "employee1", "employee1@tourmalinecore.com", 1L, true);
         employee1.Update("+71234567891", "employee1@mail.ru", "@employee1github", "@employee1gitlab",
             Instant.FromUtc(2021, 01, 01, 0, 0), true, "01/21");
 
-        var employee2 = new Employee("employee2", "employee2", "employee2", "employee2@tourmalinecore.com", true);
+        var employee2 = new Employee("employee2", "employee2", "employee2", "employee2@tourmalinecore.com", 1L, true);
         employee2.Update("+71234567892", "employee2@mail.ru", "@employee2github", "@employee2gitlab",
             Instant.FromUtc(2021, 01, 02, 0, 0), true, "02/21");
 
@@ -47,18 +47,18 @@ public class EmployeesComparerTests
     [Fact]
     public void OfficialEmployeesPrecedeUnofficialOnes()
     {
-        var employee1 = new Employee("employee1", "employee1", "employee1", "employee1@tourmalinecore.com", true);
+        var employee1 = new Employee("employee1", "employee1", "employee1", "employee1@tourmalinecore.com", 1L, true);
         employee1.Update("+71234567891", "employee1@mail.ru", "@employee1github", "@employee1gitlab",
             Instant.FromUtc(2021, 01, 01, 0, 0), true, "01/21");
 
-        var employee2 = new Employee("employee2", "employee2", "employee2", "employee2@tourmalinecore.com", true);
+        var employee2 = new Employee("employee2", "employee2", "employee2", "employee2@tourmalinecore.com", 1L, true);
         employee2.Update("+71234567892", "employee2@mail.ru", "@employee2github", "@employee2gitlab",
             Instant.FromUtc(2021, 01, 02, 0, 0), true, "02/21");
 
         var officialEmployees = new List<Employee>
         {
-            new("unofficial", "unofficial", "unofficial", "unofficial@tourmalinecore.com"),
-            new("unofficial2", "unofficial2", "unofficial2", "unofficial2@tourmalinecore.com"),
+            new("unofficial", "unofficial", "unofficial", "unofficial@tourmalinecore.com", 1L),
+            new("unofficial2", "unofficial2", "unofficial2", "unofficial2@tourmalinecore.com", 1L),
             employee2,
             employee1
         };

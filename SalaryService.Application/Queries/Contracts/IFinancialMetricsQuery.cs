@@ -1,6 +1,6 @@
-﻿using SalaryService.Domain;
+﻿using Core;
 
-namespace SalaryService.Application.Queries.Contracts;
+namespace Application.Queries.Contracts;
 
 public interface IFinancialMetricsQuery
 {

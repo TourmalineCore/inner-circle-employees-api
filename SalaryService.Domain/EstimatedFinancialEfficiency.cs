@@ -1,6 +1,6 @@
 ﻿using NodaTime;
 
-namespace SalaryService.Domain;
+namespace Core;
 
 public class EstimatedFinancialEfficiency
 {

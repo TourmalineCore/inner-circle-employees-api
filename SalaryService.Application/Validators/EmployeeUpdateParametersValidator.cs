@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using SalaryService.Application.Dtos;
+﻿using Application.Dtos;
+using FluentValidation;
 
-namespace SalaryService.Application.Validators;
+namespace Application.Validators;
 
 public class EmployeeUpdateParametersValidator : AbstractValidator<EmployeeUpdateDto>
 {

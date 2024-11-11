@@ -1,6 +1,6 @@
-﻿using SalaryService.Domain;
+﻿using Core;
 
-namespace SalaryService.Api.Responses;
+namespace Api.Responses;
 
 public class EmployeeProfileResponse
 {
@@ -42,11 +42,11 @@ public class EmployeeProfileResponse
         IsEmployedOfficially = employee.IsEmployedOfficially;
         IsSalaryInfoFilled = employee.FinancialMetrics != null;
 
-        if (IsSalaryInfoFilled)
+        if(IsSalaryInfoFilled)
         {
             FullSalary = Math.Round(employee.FinancialMetrics.Salary, 2);
 
-            if (IsEmployedOfficially)
+            if(IsEmployedOfficially)
             {
                 DistrictCoefficient = Math.Round(employee.FinancialMetrics.DistrictCoefficient, 2);
                 IncomeTax = Math.Round(employee.FinancialMetrics.IncomeTaxContributions, 2);

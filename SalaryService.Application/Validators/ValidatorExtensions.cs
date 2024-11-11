@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SalaryService.Application.Validators;
+namespace Application.Validators;
 
 public static class ValidatorExtensions
 {

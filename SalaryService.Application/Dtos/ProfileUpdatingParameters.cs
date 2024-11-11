@@ -1,4 +1,4 @@
-﻿namespace SalaryService.Application.Dtos;
+﻿namespace Application.Dtos;
 
 public readonly struct ProfileUpdatingParameters
 {

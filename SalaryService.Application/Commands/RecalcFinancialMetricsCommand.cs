@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Queries.Contracts;
+using Core;
+using DataAccess;
 using NodaTime;
-using SalaryService.Application.Queries.Contracts;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
 
-namespace SalaryService.Application.Commands;
+namespace Application.Commands;
 
 public class RecalcFinancialMetricsCommand
 {
@@ -14,9 +13,9 @@ public class RecalcFinancialMetricsCommand
     private readonly IFinancialMetricsQuery _financialMetricsQuery;
 
     public RecalcFinancialMetricsCommand(
-        EmployeeDbContext context, 
-        RecalcEstimatedFinancialEfficiencyCommand recalcEstimatedFinancialEfficiencyCommand, 
-        RecalcTotalMetricsCommand recalcTotalMetricsCommand, 
+        EmployeeDbContext context,
+        RecalcEstimatedFinancialEfficiencyCommand recalcEstimatedFinancialEfficiencyCommand,
+        RecalcTotalMetricsCommand recalcTotalMetricsCommand,
         IFinancialMetricsQuery financialMetricsQuery)
     {
         _context = context;

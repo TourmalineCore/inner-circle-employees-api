@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Application.Commands;
+using Application.Dtos;
+using Application.Queries;
+using Application.Queries.Contracts;
+using Core;
+using DataAccess;
+using Microsoft.Extensions.Logging;
 using NodaTime;
-using SalaryService.Application.Commands;
-using SalaryService.Application.Dtos;
-using SalaryService.Application.Queries;
-using SalaryService.Application.Queries.Contracts;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
 
-namespace SalaryService.Application.Transactions;
+namespace Application.Transactions;
 
 public class EmployeeUpdateTransaction
 {
@@ -25,7 +25,7 @@ public class EmployeeUpdateTransaction
         ICoefficientsQuery getCoefficientsQueryHandler,
         IWorkingPlanQuery getWorkingPlanQueryHandler,
         IClock clock,
-        EmployeeQuery employeeQuery, 
+        EmployeeQuery employeeQuery,
         ILogger<EmployeeUpdateTransaction> logger)
     {
         _context = context;
@@ -48,7 +48,7 @@ public class EmployeeUpdateTransaction
             await UpdateEmployeeFinancesAsync(employee, request);
             await transaction.CommitAsync();
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
             _logger.LogError(ex.Message);
             await transaction.RollbackAsync();
@@ -78,7 +78,7 @@ public class EmployeeUpdateTransaction
         var workingPlan = await _workingPlanQuery.GetWorkingPlanAsync();
         var now = _clock.GetCurrentInstant();
 
-        if (employee.FinancialMetrics == null)
+        if(employee.FinancialMetrics == null)
         {
             employee.UpdateFinancialMetrics(request.FinancesForPayroll, coefficients, workingPlan, now);
             _context.Update(employee.FinancialMetrics);

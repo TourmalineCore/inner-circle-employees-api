@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Api;
+using Api.Responses;
+using Application.Dtos;
+using Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SalaryService.Api.Responses;
-using SalaryService.Application.Dtos;
-using SalaryService.Application.Services;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
 
-namespace SalaryService.Api.Controllers;
+namespace Api.Controllers;
 
 [Authorize]
 [Route("api/finance")]
@@ -24,7 +25,7 @@ public class FinanceController : Controller
     [HttpPost("get-analytics")]
     public async Task<AnalyticsTableResponse> GetAnalyticsAsync([FromBody] IEnumerable<MetricsRowDto> metricsRows)
     {
-        if (!metricsRows.Any())
+        if(!metricsRows.Any())
         {
             var employees = await _employeesService.GetEmployeesForAnalytics();
             var employeesTotalFinancialMetrics = await _financesService.CalculateEmployeesTotalFinancialMetricsAsync();

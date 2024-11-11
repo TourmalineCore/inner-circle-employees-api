@@ -1,11 +1,10 @@
-﻿using NodaTime;
-using SalaryService.Application.Commands;
-using SalaryService.Application.Queries;
-using SalaryService.Application.Queries.Contracts;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
+﻿using Application.Commands;
+using Application.Queries;
+using Application.Queries.Contracts;
+using DataAccess;
+using NodaTime;
 
-namespace SalaryService.Application.Transactions;
+namespace Application.Transactions;
 
 public class EmployeeDismissalTransaction
 {
@@ -42,7 +41,7 @@ public class EmployeeDismissalTransaction
     //    var now = _clock.GetCurrentInstant();
 
     //    using var transaction = _context.Database.BeginTransaction();
-        
+
     //    try
     //    {
     //        await RemoveEmployeeAsync(employee, now);

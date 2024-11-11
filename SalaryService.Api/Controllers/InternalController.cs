@@ -1,11 +1,11 @@
 ﻿using System.Net;
+using Api.Models;
+using Application.Dtos;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
-using SalaryService.Api.Models;
-using SalaryService.Application.Dtos;
-using SalaryService.Application.Services;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
 
-namespace SalaryService.Api.Controllers;
+namespace Api.Controllers;
 
 [Route("internal")]
 [ApiController]
@@ -29,10 +29,10 @@ public class InternalController : ControllerBase
             await _employeeService.CreateAsync(employeeCreationParameters);
             return StatusCode(CreatedStatusCode);
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
-            var message = ex.InnerException != null 
-                ? ex.InnerException.Message 
+            var message = ex.InnerException != null
+                ? ex.InnerException.Message
                 : ex.Message;
 
             return Problem(message, null, InternalServerErrorCode);

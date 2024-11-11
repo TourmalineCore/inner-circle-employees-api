@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.EventLog;
-using SalaryService.Application;
-using SalaryService.DataAccess;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.OpenApi.Models;
-using SalaryService.Api;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Options;
+using Api;
+using Application;
+using DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 

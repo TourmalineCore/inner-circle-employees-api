@@ -1,4 +1,4 @@
-﻿namespace SalaryService.Domain;
+﻿namespace Core;
 
 public static class MetricsDiffCalculator
 {

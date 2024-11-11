@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NodaTime;
-using SalaryService.Domain;
 
-namespace SalaryService.DataAccess.Mapping;
+namespace DataAccess.Mapping;
 
 public class EmployeeMapping : IEntityTypeConfiguration<Employee>
 {

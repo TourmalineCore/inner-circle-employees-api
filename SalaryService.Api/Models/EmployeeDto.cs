@@ -1,7 +1,6 @@
-﻿using System;
-using SalaryService.Domain;
+﻿using Core;
 
-namespace SalaryService.Api.Models;
+namespace Api.Models;
 
 public class EmployeeDto
 {

@@ -1,4 +1,4 @@
-﻿using SalaryService.Domain;
+﻿using Core;
 
 namespace SalaryService.Tests;
 

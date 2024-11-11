@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SalaryService.Application.Dtos;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
+﻿using Application.Dtos;
+using Core;
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
 
-namespace SalaryService.Application.Commands;
+namespace Application.Commands;
 
 public class ProfileUpdateCommand
 {

@@ -1,6 +1,6 @@
-﻿using Moq;
-using SalaryService.Application.Dtos;
-using SalaryService.Application.Validators;
+﻿using Application.Dtos;
+using Application.Validators;
+using Moq;
 
 namespace SalaryService.Tests;
 

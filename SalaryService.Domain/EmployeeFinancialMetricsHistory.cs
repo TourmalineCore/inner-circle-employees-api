@@ -1,7 +1,7 @@
 ﻿using NodaTime;
-using Period = SalaryService.Domain.Common.Period;
+using Period = Core.Common.Period;
 
-namespace SalaryService.Domain;
+namespace Core;
 
 public class EmployeeFinancialMetricsHistory : IIdentityEntity
 {
@@ -10,7 +10,7 @@ public class EmployeeFinancialMetricsHistory : IIdentityEntity
     public long EmployeeId { get; set; }
 
     public Employee Employee { get; set; }
-    
+
     public Period Period { get; set; }
 
     public decimal Salary { get; set; }

@@ -1,6 +1,6 @@
-﻿using SalaryService.Domain;
+﻿using Core;
 
-namespace SalaryService.Api.Responses;
+namespace Api.Responses;
 
 public class AnalyticsTableResponse
 {
@@ -108,7 +108,7 @@ public class EmployeeMetricsRowDto
     {
         IsEmployedOfficially = isEmployedOfficially;
 
-        if (employeeFinancialMetrics != null)
+        if(employeeFinancialMetrics != null)
         {
             Pay = Math.Round(employeeFinancialMetrics.Pay, 2);
             RatePerHour = Math.Round(employeeFinancialMetrics.RatePerHour, 2);

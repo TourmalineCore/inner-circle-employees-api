@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Commands;
+using Application.Queries;
+using Application.Queries.Contracts;
+using Application.Services;
+using Application.Transactions;
+using Application.Validators;
+using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
-using SalaryService.Application.Commands;
-using SalaryService.Application.Queries;
-using SalaryService.Application.Queries.Contracts;
-using SalaryService.Application.Services;
-using SalaryService.Application.Transactions;
-using SalaryService.Application.Validators;
 
-namespace SalaryService.Application;
+namespace Application;
 
 public static class DependencyInjection
 {

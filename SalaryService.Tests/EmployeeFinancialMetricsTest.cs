@@ -1,6 +1,6 @@
+using Core;
 using Moq;
 using NodaTime;
-using SalaryService.Domain;
 using SalaryService.Tests.Data;
 
 namespace SalaryService.Tests;

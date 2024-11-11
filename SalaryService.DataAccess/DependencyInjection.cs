@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 
-namespace SalaryService.DataAccess;
+namespace DataAccess;
 
 public static class DependencyInjection
 {

@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using NodaTime;
 
-namespace SalaryService.Domain;
+namespace Core;
 
 public class TotalFinances
 {

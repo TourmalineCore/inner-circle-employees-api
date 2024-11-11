@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SalaryService.Domain;
+﻿using Core;
+using Microsoft.EntityFrameworkCore;
 
-namespace SalaryService.DataAccess;
+namespace DataAccess;
 
 //Use next command in Package Manager Console to update Dev env DB
 //PM> $env:ASPNETCORE_ENVIRONMENT = 'Debug'; Update-Database
@@ -23,7 +23,7 @@ public class EmployeeDbContext : DbContext
 
     public EmployeeDbContext(DbContextOptions<EmployeeDbContext> options) : base(options)
     {
-        
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

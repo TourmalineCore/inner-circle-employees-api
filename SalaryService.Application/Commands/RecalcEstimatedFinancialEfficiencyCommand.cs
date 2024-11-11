@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core;
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
 using NodaTime;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
 
-namespace SalaryService.Application.Commands;
+namespace Application.Commands;
 
 public class RecalcEstimatedFinancialEfficiencyCommand
 {
@@ -19,7 +19,7 @@ public class RecalcEstimatedFinancialEfficiencyCommand
         var currentEstimatedFinancialEfficiency = await _context.Queryable<EstimatedFinancialEfficiency>().SingleOrDefaultAsync();
         var newEstimatedFinancialEfficiency = new EstimatedFinancialEfficiency(employeeFinancialMetrics, coefficients, totalExpenses, utcNow);
 
-        if (currentEstimatedFinancialEfficiency == null)
+        if(currentEstimatedFinancialEfficiency == null)
         {
             await _context.AddAsync(newEstimatedFinancialEfficiency);
         }

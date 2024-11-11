@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Contract;
 
-namespace SalaryService.Api
+namespace Api
 {
     public class UserClaimsProvider : IUserClaimsProvider
     {

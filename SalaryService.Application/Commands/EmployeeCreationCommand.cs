@@ -1,8 +1,8 @@
-﻿using SalaryService.Application.Dtos;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
+﻿using Application.Dtos;
+using Core;
+using DataAccess;
 
-namespace SalaryService.Application.Commands;
+namespace Application.Commands;
 
 public class EmployeeCreationCommand
 {

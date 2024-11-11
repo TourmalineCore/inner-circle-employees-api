@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
+﻿using Core;
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
 
-namespace SalaryService.Application.Queries;
+namespace Application.Queries;
 
 public class CurrentEmployeesQuery
 {

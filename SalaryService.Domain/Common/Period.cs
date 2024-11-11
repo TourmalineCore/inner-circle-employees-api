@@ -1,6 +1,6 @@
 ﻿using NodaTime;
 
-namespace SalaryService.Domain.Common;
+namespace Core.Common;
 
 public class Period
 {

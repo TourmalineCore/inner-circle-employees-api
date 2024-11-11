@@ -1,6 +1,6 @@
-﻿using SalaryService.Domain;
+﻿using Core;
 
-namespace SalaryService.Api.Responses;
+namespace Api.Responses;
 
 public class EmployeeResponse
 {
@@ -48,13 +48,14 @@ public class EmployeeResponse
         GitHub = employee.GitHub;
         GitLab = employee.GitLab;
 
-        if (!includeSalaryAndDocumentData) return;
+        if(!includeSalaryAndDocumentData)
+            return;
 
         IsBlankEmployee = employee.IsBlankEmployee;
         IsCurrentEmployee = employee.IsCurrentEmployee;
         IsEmployedOfficially = employee.IsEmployedOfficially;
 
-        if (employee.FinancialMetrics != null)
+        if(employee.FinancialMetrics != null)
         {
             NetSalary = Math.Round(employee.FinancialMetrics.NetSalary, 2);
             RatePerHour = Math.Round(employee.FinancialMetrics.RatePerHour, 2);
@@ -63,7 +64,7 @@ public class EmployeeResponse
             EmploymentType = employee.FinancialMetrics.EmploymentType;
         }
 
-        if (employee.PersonnelNumber != null)
+        if(employee.PersonnelNumber != null)
         {
             PersonnelNumber = employee.PersonnelNumber.ToString();
         }

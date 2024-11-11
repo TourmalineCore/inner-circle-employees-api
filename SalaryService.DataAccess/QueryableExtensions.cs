@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SalaryService.Domain;
+﻿using Core;
+using Microsoft.EntityFrameworkCore;
 
-namespace SalaryService.DataAccess;
+namespace DataAccess;
 
 public static class QueryableExtensions
 {
@@ -22,7 +22,7 @@ public static class QueryableExtensions
     {
         var entity = await queryable.SingleOrDefaultAsync(x => x.Id == id);
 
-        if (entity == null)
+        if(entity == null)
         {
             throw new Exception("Entity does not exits");
         }

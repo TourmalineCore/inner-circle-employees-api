@@ -1,4 +1,4 @@
-﻿namespace SalaryService.Domain;
+﻿namespace Core;
 
 public class FinancesForPayroll
 {
@@ -10,7 +10,7 @@ public class FinancesForPayroll
 
     public decimal EmploymentType { get; init; }
 
-    public FinancesForPayroll(decimal ratePerHour, 
+    public FinancesForPayroll(decimal ratePerHour,
         decimal pay,
         decimal employmentType,
         decimal parkingCostPerMonth)

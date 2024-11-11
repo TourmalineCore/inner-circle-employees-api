@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core;
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
 using NodaTime;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
 
-namespace SalaryService.Application.Commands;
+namespace Application.Commands;
 
 public class RecalcTotalMetricsCommand
 {
@@ -19,7 +19,7 @@ public class RecalcTotalMetricsCommand
         var currentTotalFinances = await _context.Queryable<TotalFinances>().SingleOrDefaultAsync();
         var newTotalFinances = new TotalFinances(employeeFinancialMetrics, coefficients, utcNow);
 
-        if (currentTotalFinances == null)
+        if(currentTotalFinances == null)
         {
             await _context.AddAsync(newTotalFinances);
         }

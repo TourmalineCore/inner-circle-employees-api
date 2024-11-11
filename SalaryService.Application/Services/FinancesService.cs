@@ -1,9 +1,9 @@
-﻿using NodaTime;
-using SalaryService.Application.Dtos;
-using SalaryService.Application.Queries.Contracts;
-using SalaryService.Domain;
+﻿using Application.Dtos;
+using Application.Queries.Contracts;
+using Core;
+using NodaTime;
 
-namespace SalaryService.Application.Services;
+namespace Application.Services;
 
 public class FinancesService
 {
@@ -67,9 +67,9 @@ public class FinancesService
         var employees = await _employeesQuery.GetEmployeesAsync(tenantId);
         var metricsRowChangesList = new List<MetricsRowChanges>();
 
-        foreach (var metricsRow in metricsRows)
+        foreach(var metricsRow in metricsRows)
         {
-            if (metricsRow.IsCopy)
+            if(metricsRow.IsCopy)
             {
                 var employeeCopyMetrics = await CalculateMetricsAsync(
                     new FinancesForPayroll(
@@ -96,7 +96,7 @@ public class FinancesService
             var employee = employees.Single(x => x.Id == employeeId);
             var employeeSourceMetrics = employee.FinancialMetrics;
 
-            if (IsEmployeeMetricsChanged(metricsRow, employee))
+            if(IsEmployeeMetricsChanged(metricsRow, employee))
             {
                 var employeeNewMetrics = await CalculateMetricsAsync(
                     new FinancesForPayroll(

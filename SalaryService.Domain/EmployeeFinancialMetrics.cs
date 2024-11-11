@@ -1,7 +1,7 @@
-﻿using NodaTime;
-using SalaryService.Domain.Common;
+﻿using Core.Common;
+using NodaTime;
 
-namespace SalaryService.Domain;
+namespace Core;
 
 public class EmployeeFinancialMetrics
 {
@@ -58,7 +58,7 @@ public class EmployeeFinancialMetrics
     public EmployeeFinancialMetrics(FinancesForPayroll financesForPayroll, bool isEmployedOfficially,
         CoefficientOptions coefficients, WorkingPlan workingPlan, Instant createdAtUtc)
     {
-        if (!_availableEmploymentTypes.Contains(financesForPayroll.EmploymentType))
+        if(!_availableEmploymentTypes.Contains(financesForPayroll.EmploymentType))
             throw new ArgumentException(
                 $"Employment type can accept only the following values: {string.Join(",", _availableEmploymentTypes)}");
 
@@ -70,7 +70,7 @@ public class EmployeeFinancialMetrics
         WorkingPlan = workingPlan;
         CreatedAtUtc = createdAtUtc;
 
-        if (isEmployedOfficially)
+        if(isEmployedOfficially)
             CalculateMetrics();
         else
             CalculateFreelanceEmployeeMetrics();

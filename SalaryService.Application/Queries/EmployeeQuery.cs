@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
+﻿using Core;
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
 
-namespace SalaryService.Application.Queries;
+namespace Application.Queries;
 
 public class EmployeeQuery
 {
@@ -20,7 +20,7 @@ public class EmployeeQuery
             .Include(x => x.FinancialMetrics)
             .SingleAsync(x => x.Id == employeeId && x.DeletedAtUtc == null);
 
-        if (employee == null)
+        if(employee == null)
         {
             throw new NullReferenceException("Employee not found");
         }
@@ -35,7 +35,7 @@ public class EmployeeQuery
             .Include(x => x.FinancialMetrics)
             .SingleAsync(x => x.CorporateEmail == corporateEmail && x.DeletedAtUtc == null);
 
-        if (employee == null)
+        if(employee == null)
         {
             throw new NullReferenceException("Employee not found");
         }

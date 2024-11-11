@@ -1,9 +1,9 @@
-﻿using Moq;
+﻿using Application.Dtos;
+using Application.Queries.Contracts;
+using Application.Services;
+using Core;
+using Moq;
 using NodaTime;
-using SalaryService.Application.Dtos;
-using SalaryService.Application.Queries.Contracts;
-using SalaryService.Application.Services;
-using SalaryService.Domain;
 using SalaryService.Tests.Data;
 
 namespace SalaryService.Tests;

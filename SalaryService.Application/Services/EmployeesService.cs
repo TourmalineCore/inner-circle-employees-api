@@ -1,13 +1,13 @@
-﻿using FluentValidation;
-using SalaryService.Application.Commands;
-using SalaryService.Application.Dtos;
-using SalaryService.Application.Queries;
-using SalaryService.Application.Queries.Contracts;
-using SalaryService.Application.Transactions;
-using SalaryService.Application.Validators;
-using SalaryService.Domain;
+﻿using Application.Commands;
+using Application.Dtos;
+using Application.Queries;
+using Application.Queries.Contracts;
+using Application.Transactions;
+using Application.Validators;
+using Core;
+using FluentValidation;
 
-namespace SalaryService.Application.Services;
+namespace Application.Services;
 
 public class EmployeesService
 {
@@ -31,9 +31,9 @@ public class EmployeesService
         EmployeeUpdateTransaction employeeUpdateTransaction,
         EmployeeDismissalTransaction employeeDismissalTransaction,
         EmployeeQuery employeeQuery,
-        IEmployeesQuery employeesQuery, 
-        EmployeesForAnalyticsQuery employeesForAnalyticsQuery, 
-        CurrentEmployeesQuery currentEmployeesQuery, 
+        IEmployeesQuery employeesQuery,
+        EmployeesForAnalyticsQuery employeesForAnalyticsQuery,
+        CurrentEmployeesQuery currentEmployeesQuery,
         ProfileUpdatingParametersValidator profileUpdatingParametersValidator)
     {
         _employeeCreationCommand = createEmployeeCommandHandler;
@@ -88,7 +88,7 @@ public class EmployeesService
     {
         var validationResult = await _employeeUpdateParametersValidator.ValidateAsync(request);
 
-        if (!validationResult.IsValid)
+        if(!validationResult.IsValid)
         {
             throw new ValidationException(validationResult.Errors[0].ErrorMessage);
         }
@@ -100,7 +100,7 @@ public class EmployeesService
     {
         var validationResult = await _profileUpdatingParametersValidator.ValidateAsync(updatingParameters);
 
-        if (!validationResult.IsValid)
+        if(!validationResult.IsValid)
         {
             throw new ValidationException(validationResult.Errors[0].ErrorMessage);
         }

@@ -1,4 +1,4 @@
-﻿namespace SalaryService.Domain.Common;
+﻿namespace Core.Common;
 
 internal class ThirdPartyServicesPriceConsts
 {

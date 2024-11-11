@@ -1,6 +1,6 @@
-﻿using SalaryService.Domain;
+﻿using Core;
 
-namespace SalaryService.Api.Responses;
+namespace Api.Responses;
 
 public class IndicatorsResponse
 {
@@ -19,10 +19,10 @@ public class IndicatorsResponse
     public decimal MinimumWage { get; private set; }
 
     public IndicatorsResponse(
-        CoefficientOptions coefficients, 
-        WorkingPlan workingPlan, 
-        TotalFinances? totalFinances, 
-        EstimatedFinancialEfficiency? estimatedFinancialEfficiency) 
+        CoefficientOptions coefficients,
+        WorkingPlan workingPlan,
+        TotalFinances? totalFinances,
+        EstimatedFinancialEfficiency? estimatedFinancialEfficiency)
     {
         TotalExpenses = new ExpensesDto(totalFinances, coefficients);
         DesiredFinancialMetrics = new DesiredFinancialMetricsDto(estimatedFinancialEfficiency);
@@ -58,7 +58,7 @@ public class DesiredFinancialMetricsDto
     {
         DesiredIncome = efficiency != null ? Math.Round(efficiency.DesiredEarnings, 2) : null;
         DesiredProfit = efficiency != null ? Math.Round(efficiency.DesiredProfit, 2) : null;
-        DesiredProfitability = efficiency != null ? Math.Round(efficiency.DesiredProfitability, 2): null;
+        DesiredProfitability = efficiency != null ? Math.Round(efficiency.DesiredProfitability, 2) : null;
     }
 }
 

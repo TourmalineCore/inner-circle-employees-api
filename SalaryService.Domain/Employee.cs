@@ -1,6 +1,6 @@
 ﻿using NodaTime;
 
-namespace SalaryService.Domain;
+namespace Core;
 
 public class Employee : IIdentityEntity
 {
@@ -88,12 +88,12 @@ public class Employee : IIdentityEntity
         IsBlankEmployee = false;
         IsCurrentEmployee = true;
 
-        if (!IsEmployedOfficially)
+        if(!IsEmployedOfficially)
         {
             PersonnelNumber = null;
         }
 
-        if (!string.IsNullOrEmpty(personnelNumber))
+        if(!string.IsNullOrEmpty(personnelNumber))
         {
             PersonnelNumber = new EmployeePersonnelNumber(personnelNumber);
         }

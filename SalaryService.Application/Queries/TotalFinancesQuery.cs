@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SalaryService.Application.Queries.Contracts;
-using SalaryService.DataAccess;
-using SalaryService.Domain;
+﻿using Application.Queries.Contracts;
+using Core;
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
 
-namespace SalaryService.Application.Queries;
+namespace Application.Queries;
 
 public class TotalFinancesQuery : ITotalFinancesQuery
 {

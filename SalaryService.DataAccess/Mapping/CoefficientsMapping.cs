@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SalaryService.Domain;
 
-namespace SalaryService.DataAccess.Mapping;
+namespace DataAccess.Mapping;
 
 public class CoefficientsMapping : IEntityTypeConfiguration<CoefficientOptions>
 {

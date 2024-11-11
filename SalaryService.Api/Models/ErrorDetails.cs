@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace SalaryService.Api.Models;
+namespace Api.Models;
 
 public class ErrorDetails
 {
