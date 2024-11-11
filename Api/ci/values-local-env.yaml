@@ -13,7 +13,7 @@
 ##
 image:
   registry: ghcr.io
-  repository: tourmalinecore/inner-circle/salary-api
+  repository: tourmalinecore/inner-circle/employees-api
   tag: latest
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -42,7 +42,7 @@ image:
 
 # Here you need to pass your application dll to the dotnet utility
 args:
-  - "SalaryService.Api.dll"
+  - "Api.dll"
   # - "EmailSender.Api.dll"
 
 ## @param bindURLs URLs to bind
@@ -159,7 +159,7 @@ ingress:
   # hostname: aspnet-core.locals
   ## @param ingress.path Default path for the ingress record
   ##
-  path: /api/salary(/|$)(.*)
+  path: /api/employees(/|$)(.*)
   ## @param ingress.annotations Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations.
   ## For a full list of possible ingress annotations, please see
   ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md
