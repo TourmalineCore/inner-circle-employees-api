@@ -23,8 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SalaryService.Domain\Core.csproj" />
-    <ProjectReference Include="..\SalaryService.Domain\SalaryService.Domain.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>

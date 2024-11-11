@@ -4,36 +4,36 @@ services:
   db-debug:
     image: postgres:13
     restart: always
-    container_name: 'salary-db-debug'
+    container_name: 'employees-db-debug'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: InnerCircleFinanceDb
+      POSTGRES_DB: InnerCircleEmployeesDb
     ports:
       - 5433:5432
     networks:
-      - salaryservice-deb
+      - employeesservice-deb
 
-  salary-service-api:
-    container_name: 'salary-service-api'
+  employees-service-api:
+    container_name: 'employees-service-api'
     depends_on:
       - "db-debug"
     build:
-      dockerfile: SalaryService.Api/Dockerfile
+      dockerfile: Api/Dockerfile
       context: .
     ports:
       - 5030:80
     environment:
       - ASPNETCORE_ENVIRONMENT=Debug
-      - LOGS_PATH=/var/log/salary-service-api
-      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Host=db-debug;port=5432;Database=InnerCircleFinanceDb
+      - LOGS_PATH=/var/log/employees-service-api
+      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Host=db-debug;port=5432;Database=InnerCircleEmployeesDb
     volumes:
-      - ./logs/wb-auth:/var/log/salary-service-api
+      - ./logs/wb-auth:/var/log/employees-service-api
     networks:
-      - salaryservice-deb
+      - employeesservice-deb
       - ic-backend-deb
 
 networks:
-  salaryservice-deb: {}
+  employeesservice-deb: {}
   ic-backend-deb:
     external: true

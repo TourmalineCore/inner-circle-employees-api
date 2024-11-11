@@ -1,4 +1,4 @@
-# InnerCircle.SalaryService
+# InnerCircle.EmployeesService
 
 ____
 # Getting started with Docker
