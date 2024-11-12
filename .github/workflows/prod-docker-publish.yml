@@ -10,6 +10,7 @@ env:
   GITHUB_REGISTRY: ghcr.io
 
 jobs:
+  
   sandbox-karate:
     name: Run karate tests in docker 
     if: github.event_name == 'pull_request'
@@ -23,6 +24,7 @@ jobs:
         url: http://docker:5000/api
         tests: |
           ./Tests/API/e2e/KarateTests.feature -D DEV_KARATE_LOGIN=${{ secrets.DEV_KARATE_LOGIN }} DEV_KARATE_PASSWORD=${{ secrets.DEV_KARATE_PASSWORD }}
+  
   build-image:
     name: Build and push service image 
     if: github.event_name == 'push'
@@ -36,9 +38,10 @@ jobs:
           docker build -t $GITHUB_REGISTRY/tourmalinecore/inner-circle/employees-api:latest -t $GITHUB_REGISTRY/tourmalinecore/inner-circle/employees-api:${{ github.sha }} -f Api/Dockerfile .
           docker push $GITHUB_REGISTRY/tourmalinecore/inner-circle/employees-api:latest
           docker push $GITHUB_REGISTRY/tourmalinecore/inner-circle/employees-api:${{ github.sha }}
+  
   deploy-to-prod-k8s:
     needs: build-image
-    name: Deploy service to k8s for prod environment  
+    name: Deploy service to k8s for prod environment 
     runs-on: ubuntu-22.04
     steps:
       - name: checkout
@@ -59,6 +62,7 @@ jobs:
             "${RELEASE_NAME}" \
             bitnami/aspnet-core --version 4.4.7
           kubeconfig: "${{ secrets.DEV_KUBECONFIG }}"
+  
   dev-karate:
     name: Run karate tests in production 
     needs: deploy-to-prod-k8s
@@ -72,5 +76,3 @@ jobs:
         url: https://innercircle.tourmalinecore.com/api
         tests: |
           ./Tests/API/e2e/KarateTests.feature -D DEV_KARATE_LOGIN=${{ secrets.DEV_KARATE_LOGIN }} DEV_KARATE_PASSWORD=${{ secrets.DEV_KARATE_PASSWORD }}
-
-
