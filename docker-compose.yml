@@ -1,39 +1,35 @@
-version: "3.8"
-
 services:
-  db-debug:
-    image: postgres:13
+  employees-db:
+    container_name: 'employees-db'
+    image: postgres:14.2-alpine
     restart: always
-    container_name: 'employees-db-debug'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: InnerCircleEmployeesDb
+      POSTGRES_DB: employees-db
     ports:
-      - 5433:5432
+      - 10009:5432
     networks:
-      - employeesservice-deb
+      - employees-network
 
-  employees-service-api:
-    container_name: 'employees-service-api'
+  employees-api:
+    container_name: 'employees-api'
     depends_on:
-      - "db-debug"
+      - employees-db
     build:
       dockerfile: Api/Dockerfile
       context: .
     ports:
-      - 5030:80
+      - 10010:80
     environment:
-      - ASPNETCORE_ENVIRONMENT=Debug
-      - LOGS_PATH=/var/log/employees-service-api
-      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Host=db-debug;port=5432;Database=InnerCircleEmployeesDb
-    volumes:
-      - ./logs/wb-auth:/var/log/employees-service-api
+      - ASPNETCORE_ENVIRONMENT=MockForDevelopment
+      - LOGS_PATH=/var/log/employees-api
+      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Host=employees-db;port=5432;Database=employees-db
     networks:
-      - employeesservice-deb
+      - employees-network
       - ic-backend-deb
 
 networks:
-  employeesservice-deb: {}
+  employees-network: {}
   ic-backend-deb:
     external: true
