@@ -27,7 +27,6 @@ jobs:
   
   build-image:
     name: Build and push service image 
-    if: github.event_name == 'push'
     runs-on: ubuntu-22.04
     steps:
       - name: checkout
@@ -42,6 +41,7 @@ jobs:
   deploy-to-prod-k8s:
     needs: build-image
     name: Deploy service to k8s for prod environment 
+    if: github.event_name == 'push'
     runs-on: ubuntu-22.04
     steps:
       - name: checkout
