@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Api.Models;
+using Application.Commands;
 using Application.Dtos;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +13,17 @@ namespace Api.Controllers;
 public class InternalController : ControllerBase
 {
     private const int CreatedStatusCode = (int)HttpStatusCode.Created;
+    private const int UpdatedStatusCode = (int)HttpStatusCode.OK;
     private const int InternalServerErrorCode = (int)HttpStatusCode.InternalServerError;
 
     private readonly EmployeesService _employeeService;
+    private readonly EmployeePersonalInformationUpdateCommand _employeePersonalInformationUpdateCommand;
 
-    public InternalController(EmployeesService employeeService)
+    public InternalController(EmployeesService employeeService,
+        EmployeePersonalInformationUpdateCommand employeePersonalInformationUpdateCommand)
     {
         _employeeService = employeeService;
+        _employeePersonalInformationUpdateCommand = employeePersonalInformationUpdateCommand;
     }
 
     [HttpPost("create-employee")]
@@ -28,6 +33,24 @@ public class InternalController : ControllerBase
         {
             await _employeeService.CreateAsync(employeeCreationParameters);
             return StatusCode(CreatedStatusCode);
+        }
+        catch(Exception ex)
+        {
+            var message = ex.InnerException != null
+                ? ex.InnerException.Message
+                : ex.Message;
+
+            return Problem(message, null, InternalServerErrorCode);
+        }
+    }
+
+    [HttpPost("update-employee-personal-info")]
+    public async Task<ActionResult> CreateEmployeeAsync([FromBody] EmployeePersonalInformationUpdateParameters employeePersonalInformationUpdateParameters)
+    {
+        try
+        {
+            await _employeePersonalInformationUpdateCommand.ExecuteAsync(employeePersonalInformationUpdateParameters);
+            return StatusCode(UpdatedStatusCode);
         }
         catch(Exception ex)
         {

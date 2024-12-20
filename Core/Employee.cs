@@ -6,39 +6,39 @@ public class Employee : IIdentityEntity
 {
     public long Id { get; set; }
 
-    public string FirstName { get; private set; }
+    public string FirstName { get; set; }
 
-    public string LastName { get; private set; }
+    public string LastName { get; set; }
 
-    public string? MiddleName { get; private set; }
+    public string? MiddleName { get; set; }
 
-    public string CorporateEmail { get; private set; }
+    public string CorporateEmail { get; set; }
 
-    public string? PersonalEmail { get; private set; }
+    public string? PersonalEmail { get; set; }
 
-    public string? Phone { get; private set; }
+    public string? Phone { get; set; }
 
-    public string? GitHub { get; private set; }
+    public string? GitHub { get; set; }
 
-    public string? GitLab { get; private set; }
+    public string? GitLab { get; set; }
 
-    public EmployeeFinancialMetrics? FinancialMetrics { get; private set; }
+    public EmployeeFinancialMetrics? FinancialMetrics { get; set; }
 
-    public Instant? HireDate { get; private set; }
+    public Instant? HireDate { get; set; }
 
-    public bool IsBlankEmployee { get; private set; }
+    public bool IsBlankEmployee { get; set; }
 
-    public bool IsCurrentEmployee { get; private set; }
+    public bool IsCurrentEmployee { get; set; }
 
-    public bool IsEmployedOfficially { get; private set; }
+    public bool IsEmployedOfficially { get; set; }
 
-    public EmployeePersonnelNumber? PersonnelNumber { get; private set; }
+    public EmployeePersonnelNumber? PersonnelNumber { get; set; }
 
-    public Instant? DeletedAtUtc { get; private set; }
+    public Instant? DeletedAtUtc { get; set; }
 
-    public bool IsSpecial { get; private set; }
+    public bool IsSpecial { get; set; }
 
-    public long TenantId { get; private set; }
+    public long TenantId { get; set; }
 
     public Employee(string firstName, string lastName, string middleName, string corporateEmail, long tenantId,
         bool isEmployedOfficially = false)
@@ -68,6 +68,16 @@ public class Employee : IIdentityEntity
         Phone = phone;
         GitHub = gitHub;
         GitLab = gitLab;
+    }
+
+    public void UpdatePersonalInfo(
+        string firstName,
+        string middleName,
+        string lastName)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        MiddleName = middleName;
     }
 
     public void Update(
