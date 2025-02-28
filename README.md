@@ -35,7 +35,7 @@ POST http://localhost:5000/api/employees/create-employee
 ```mermaid
 erDiagram
     CoefficientOptions{
-        int8 Id PK "Not null."
+        bigint Id PK "Not null."
         numeric DistrictCoefficient "Not null."
         numeric MinimumWage "Not null."
         numeric IncomeTaxPercent "Not null."
@@ -43,7 +43,7 @@ erDiagram
     }
 
     EmployeeFinancialMetrics{
-        int8 EmployeeId PK, FK "Not null."
+        bigint EmployeeId PK, FK "Not null."
         timestamptz CreatedAtUtc "Not null."
         numeric Salary "Not null."
         numeric HourlyCostFact "Not null."
@@ -69,8 +69,8 @@ erDiagram
     }
 
     EmployeeFinancialMetricsHistory{
-        int8 Id PK "Not null."
-        int8 EmployeeId FK "Not null."
+        bigint Id PK "Not null."
+        bigint EmployeeId FK "Not null."
         timestamptz FromUtc "Not null."
         timestamptz ToUtc
         numeric Salary "Not null."
@@ -96,7 +96,7 @@ erDiagram
     }
 
     Employees{
-        int8 Id PK "Not null."
+        bigint Id PK "Not null."
         text FirstName "Not null."
         text LastName "Not null."
         text MiddleName "Default is ''."
@@ -112,11 +112,11 @@ erDiagram
         bool IsEmployedOfficially "Not null. Default is false."
         text PersonnelNumber
         bool IsSpecial "Not null. Default is false."
-        int8 TenantId "Not null. Default is 0."
+        bigint TenantId "Not null. Default is 0."
     }
 
     EstimatedFinancialEfficiency{
-        int8 Id PK "Not null."
+        bigint Id PK "Not null."
         numeric DesiredEarnings "Not null."
         numeric DesiredProfit "Not null."
         numeric DesiredProfitability "Not null."
@@ -127,14 +127,14 @@ erDiagram
     }
 
     TotalFinances{
-        int8 Id PK "Not null."
+        bigint Id PK "Not null."
         timestamptz CreatedAtUtc "Not null."
         numeric PayrollExpense "Not null."
         numeric TotalExpense "Not null."
     }
 
     TotalFinancesHistory{
-        int8 Id PK "Not null."
+        bigint Id PK "Not null."
         timestamptz FromUtc "Not null."
         timestamptz ToUtc
         numeric PayrollExpense "Not null."
@@ -142,7 +142,7 @@ erDiagram
     }
 
     WorkingPlan{
-        int8 Id PK "Not null."
+        bigint Id PK "Not null."
         numeric WorkingDaysInYear "Not null."
         numeric WorkingDaysInYearWithoutVacation "Not null."
         numeric WorkingDaysInYearWithoutVacationAndSick "Not null."
