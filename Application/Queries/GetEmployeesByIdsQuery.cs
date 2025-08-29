@@ -13,12 +13,13 @@ public class GetEmployeesByIdsQuery
         _context = context;
     }
 
-    public async Task<List<Employee>> GetEmployeesByIdsAsync(List<long> ids)
+    public async Task<List<Employee>> GetEmployeesByIdsAsync(EmployeesIdsModel ids, long tenantId)
     {
         return await _context
             .Employees
-            .Where(x => ids.Contains(x.Id))
+            .Where(x => x.TenantId == tenantId)
             .Where(x => x.DeletedAtUtc == null)
+            .Where(x => ids.EmployeesIds.Contains(x.Id))
             .ToListAsync();
     }
 }

@@ -8,6 +8,9 @@ namespace Application.Queries;
 
 public class GetEmployeesByIdsQueryTests
 {
+    private const long TENANT_ID = 1L;
+    private const long TENANT_ID_DIFF = 2L;
+
     private readonly EmployeeDbContext _context;
     private readonly GetEmployeesByIdsQuery _query;
 
@@ -29,7 +32,7 @@ public class GetEmployeesByIdsQueryTests
             "employee1",
             "employee1",
             "employee1@tourmalinecore.com",
-            1L,
+            TENANT_ID_DIFF,
             true
         );
 
@@ -38,7 +41,7 @@ public class GetEmployeesByIdsQueryTests
             "employee2",
             "employee2",
             "employee2@tourmalinecore.com",
-            1L,
+            TENANT_ID,
             true
         );
 
@@ -47,7 +50,7 @@ public class GetEmployeesByIdsQueryTests
             "employee3",
             "employee3",
             "employee3@tourmalinecore.com",
-            1L
+            TENANT_ID
         );
 
         var employee4 = new Employee(
@@ -55,7 +58,7 @@ public class GetEmployeesByIdsQueryTests
             "employee4",
             "employee4",
             "employee4@tourmalinecore.com",
-            1L
+            TENANT_ID
         );
 
         _context.Employees.AddRange(employee1, employee2, employee3, employee4);
@@ -64,16 +67,18 @@ public class GetEmployeesByIdsQueryTests
         employee4.Delete(Instant.FromUtc(2023, 1, 1, 0, 0));
         await _context.SaveChangesAsync();
 
-        var result = await _query.GetEmployeesByIdsAsync(new List<long>{
-            1,
-            3,
-            4
-        });
+        var result = await _query.GetEmployeesByIdsAsync(
+            new EmployeesIdsModel
+            {
+                EmployeesIds = new List<long> { 1, 3, 4 }
+            },
+            TENANT_ID
+        );
 
         Assert.NotNull(result);
-        Assert.Equal(2, result.Count);
-        Assert.Contains(result, t => t.Id == 1 && t.FirstName == "employee1");
+        Assert.Equal(1, result.Count);
         Assert.Contains(result, t => t.Id == 3 && t.FirstName == "employee3");
+        Assert.DoesNotContain(result, t => t.Id == 1); // Employee whose TenantId is different should not be in result
         Assert.DoesNotContain(result, t => t.Id == 2); // Employee whose ID was not requested should not be in result
         Assert.DoesNotContain(result, t => t.Id == 4); // Deleted employee should not be in result
 

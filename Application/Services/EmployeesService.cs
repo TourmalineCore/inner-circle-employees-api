@@ -67,9 +67,9 @@ public class EmployeesService
         return await _employeesQuery.GetEmployeesAsync(tenantId);
     }
 
-    public async Task<List<Employee>> GetEmployeesByIdsAsync(List<long> ids)
+    public async Task<List<Employee>> GetEmployeesByIdsAsync(EmployeesIdsModel ids, long tenantId)
     {
-        return await _getEmployeesByIdsQuery.GetEmployeesByIdsAsync(ids);
+        return await _getEmployeesByIdsQuery.GetEmployeesByIdsAsync(ids, tenantId);
     }
 
     public async Task<IEnumerable<Employee>> GetCurrentEmployeesAsync(long tenantId)
