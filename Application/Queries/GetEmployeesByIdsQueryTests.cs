@@ -1,6 +1,7 @@
 ﻿using Core;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
+using NodaTime;
 using Xunit;
 
 namespace Application.Queries;
@@ -37,7 +38,7 @@ public class GetEmployeesByIdsQueryTests
             "employee2",
             "employee2",
             "employee2@tourmalinecore.com",
-            2L,
+            1L,
             true
         );
 
@@ -49,17 +50,32 @@ public class GetEmployeesByIdsQueryTests
             1L
         );
 
-        _context.Employees.AddRange(employee1, employee2, employee3);
+        var employee4 = new Employee(
+            "employee4",
+            "employee4",
+            "employee4",
+            "employee4@tourmalinecore.com",
+            1L
+        );
+
+        _context.Employees.AddRange(employee1, employee2, employee3, employee4);
+        await _context.SaveChangesAsync();
+
+        employee4.Delete(Instant.FromUtc(2023, 1, 1, 0, 0));
         await _context.SaveChangesAsync();
 
         var result = await _query.GetEmployeesByIdsAsync(new List<long>{
             1,
-            3
+            3,
+            4
         });
 
         Assert.NotNull(result);
         Assert.Equal(2, result.Count);
         Assert.Contains(result, t => t.Id == 1 && t.FirstName == "employee1");
         Assert.Contains(result, t => t.Id == 3 && t.FirstName == "employee3");
+        Assert.DoesNotContain(result, t => t.Id == 2); // Employee whose ID was not requested should not be in result
+        Assert.DoesNotContain(result, t => t.Id == 4); // Deleted employee should not be in result
+
     }
 }

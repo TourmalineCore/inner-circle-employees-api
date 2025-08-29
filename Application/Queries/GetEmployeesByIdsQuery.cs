@@ -18,6 +18,7 @@ public class GetEmployeesByIdsQuery
         return await _context
             .Employees
             .Where(x => ids.Contains(x.Id))
+            .Where(x => x.DeletedAtUtc == null)
             .ToListAsync();
     }
 }
