@@ -15,6 +15,7 @@ public class EmployeesService
     private readonly EmployeeDeletionCommand _employeeDeletionCommand;
     private readonly EmployeeQuery _employeeQuery;
     private readonly IEmployeesQuery _employeesQuery;
+    private readonly GetEmployeesByIdsQuery _getEmployeesByIdsQuery;
     private readonly ProfileUpdateCommand _profileUpdateCommand;
     private readonly EmployeeUpdateParametersValidator _employeeUpdateParametersValidator;
     private readonly EmployeeDismissalTransaction _employeeDismissalTransaction;
@@ -32,6 +33,7 @@ public class EmployeesService
         EmployeeDismissalTransaction employeeDismissalTransaction,
         EmployeeQuery employeeQuery,
         IEmployeesQuery employeesQuery,
+        GetEmployeesByIdsQuery getEmployeesByIdsQuery,
         EmployeesForAnalyticsQuery employeesForAnalyticsQuery,
         CurrentEmployeesQuery currentEmployeesQuery,
         ProfileUpdatingParametersValidator profileUpdatingParametersValidator)
@@ -44,6 +46,7 @@ public class EmployeesService
         _employeeDismissalTransaction = employeeDismissalTransaction;
         _employeeQuery = employeeQuery;
         _employeesQuery = employeesQuery;
+        _getEmployeesByIdsQuery = getEmployeesByIdsQuery;
         _employeesForAnalyticsQuery = employeesForAnalyticsQuery;
         _currentEmployeesQuery = currentEmployeesQuery;
         _profileUpdatingParametersValidator = profileUpdatingParametersValidator;
@@ -62,6 +65,11 @@ public class EmployeesService
     public async Task<IEnumerable<Employee>> GetAllAsync(long tenantId)
     {
         return await _employeesQuery.GetEmployeesAsync(tenantId);
+    }
+
+    public async Task<List<Employee>> GetEmployeesByIdsAsync(List<long> ids)
+    {
+        return await _getEmployeesByIdsQuery.GetEmployeesByIdsAsync(ids);
     }
 
     public async Task<IEnumerable<Employee>> GetCurrentEmployeesAsync(long tenantId)

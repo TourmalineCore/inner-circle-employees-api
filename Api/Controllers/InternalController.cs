@@ -84,4 +84,14 @@ public class InternalController : ControllerBase
             .Select(x => new EmployeeDto(x))
             .ToList();
     }
+
+    [HttpPost("get-employees-by-ids")]
+    public async Task<List<EmployeeDto>> GetEmployeesByIdsAsync([FromBody] List<long> ids)
+    {
+        var employees = await _employeeService.GetEmployeesByIdsAsync(ids);
+
+        return employees
+            .Select(x => new EmployeeDto(x))
+            .ToList();
+    }
 }
