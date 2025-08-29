@@ -1,4 +1,4 @@
-﻿namespace Core;
+﻿namespace Application.Dtos;
 
 public class EmployeesIdsModel
 {

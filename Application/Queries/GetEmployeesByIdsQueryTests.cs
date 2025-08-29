@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Application.Dtos;
+using Core;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using NodaTime;

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Api.Models;
+using Application;
 using Application.Commands;
 using Application.Dtos;
 using Application.Services;
@@ -87,13 +88,16 @@ public class InternalController : ControllerBase
     }
 
     [HttpPost("get-employees-by-ids")]
-    public async Task<List<EmployeeDto>> GetEmployeesByIdsAsync([FromBody] EmployeesIdsModel ids)
+    public async Task<EmployeesByIdsDto> GetEmployeesByIdsAsync([FromBody] EmployeesIdsModel ids)
     {
         var tenantId = User.GetTenantId();
         var employees = await _employeeService.GetEmployeesByIdsAsync(ids, tenantId);
 
-        return employees
-            .Select(x => new EmployeeDto(x))
-            .ToList();
+        return new EmployeesByIdsDto
+        {
+            Employees = employees
+                .Select(x => new EmployeeById(x))
+                .ToList()
+        };
     }
 }
