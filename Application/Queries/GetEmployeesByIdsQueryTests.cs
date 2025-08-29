@@ -1,12 +1,12 @@
-﻿using Application.Queries;
-using Core;
+﻿using Core;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
+namespace Application.Queries;
+
 public class GetEmployeesByIdsQueryTests
 {
-    private const long TENANT_ID = 1;
     private readonly EmployeeDbContext _context;
     private readonly GetEmployeesByIdsQuery _query;
 
