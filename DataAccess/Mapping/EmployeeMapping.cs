@@ -101,6 +101,21 @@ public class EmployeeMapping : IEntityTypeConfiguration<Employee>
                 IsEmployedOfficially = true,
                 IsSpecial = true,
                 TenantId = 1L
+            },
+            new
+            {
+                Id = 3L,
+                FirstName = "Trial",
+                LastName = "Trial",
+                MiddleName = "Trial",
+                CorporateEmail = "trial@tourmalinecore.com",
+                PersonalEmail = "trial@gmail.com",
+                HireDate = Instant.FromDateTimeUtc(ceoHiringAtUtc),
+                IsBlankEmployee = true,
+                IsCurrentEmployee = true,
+                IsEmployedOfficially = true,
+                IsSpecial = false,
+                TenantId = 1L
             }
         );
     }
