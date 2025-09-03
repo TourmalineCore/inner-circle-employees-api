@@ -77,9 +77,10 @@ public class InternalController : ControllerBase
     }
 
     [HttpGet("get-employees")]
-    public async Task<List<EmployeeDto>> GetEmployeesAsync([FromQuery] long tenantId)
+    public async Task<List<EmployeeDto>> GetEmployeesAsync()
     {
-        var employees = await _employeeService.GetAllAsync(tenantId);
+        var employees = await _employeeService.GetAllAsync(User.GetTenantId());
+
         return employees
             .Select(x => new EmployeeDto(x))
             .ToList();
