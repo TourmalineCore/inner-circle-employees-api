@@ -90,8 +90,7 @@ public class InternalController : ControllerBase
     [HttpPost("get-employees-by-ids")]
     public async Task<EmployeesByIdsDto> GetEmployeesByIdsAsync([FromBody] EmployeesIdsModel ids)
     {
-        var tenantId = User.GetTenantId();
-        var employees = await _employeeService.GetEmployeesByIdsAsync(ids, tenantId);
+        var employees = await _employeeService.GetEmployeesByIdsAsync(ids, User.GetTenantId());
 
         return new EmployeesByIdsDto
         {
