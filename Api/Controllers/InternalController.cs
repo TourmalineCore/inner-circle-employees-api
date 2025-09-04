@@ -1,8 +1,10 @@
 ﻿using System.Net;
 using Api.Models;
+using Application;
 using Application.Commands;
 using Application.Dtos;
 using Application.Services;
+using Core;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
 
@@ -84,5 +86,18 @@ public class InternalController : ControllerBase
         return employees
             .Select(x => new EmployeeDto(x))
             .ToList();
+    }
+
+    [HttpPost("get-employees-by-ids")]
+    public async Task<EmployeesByIdsDto> GetEmployeesByIdsAsync([FromBody] EmployeesIdsModel ids)
+    {
+        var employees = await _employeeService.GetEmployeesByIdsAsync(ids, User.GetTenantId());
+
+        return new EmployeesByIdsDto
+        {
+            Employees = employees
+                .Select(x => new EmployeeById(x))
+                .ToList()
+        };
     }
 }
