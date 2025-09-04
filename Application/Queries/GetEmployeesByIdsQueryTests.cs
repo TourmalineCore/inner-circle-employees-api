@@ -82,6 +82,5 @@ public class GetEmployeesByIdsQueryTests
         Assert.DoesNotContain(result, t => t.Id == 1); // Employee whose TenantId is different should not be in result
         Assert.DoesNotContain(result, t => t.Id == 2); // Employee whose ID was not requested should not be in result
         Assert.DoesNotContain(result, t => t.Id == 4); // Deleted employee should not be in result
-
     }
 }
