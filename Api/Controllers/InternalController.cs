@@ -1,10 +1,8 @@
-﻿using System.Net;
+using System.Net;
 using Api.Models;
-using Application;
 using Application.Commands;
 using Application.Dtos;
 using Application.Services;
-using Core;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
 
@@ -14,90 +12,92 @@ namespace Api.Controllers;
 [ApiController]
 public class InternalController : ControllerBase
 {
-    private const int CreatedStatusCode = (int)HttpStatusCode.Created;
-    private const int UpdatedStatusCode = (int)HttpStatusCode.OK;
-    private const int InternalServerErrorCode = (int)HttpStatusCode.InternalServerError;
+  private const int CreatedStatusCode = (int)HttpStatusCode.Created;
+  private const int UpdatedStatusCode = (int)HttpStatusCode.OK;
+  private const int InternalServerErrorCode = (int)HttpStatusCode.InternalServerError;
 
-    private readonly EmployeesService _employeeService;
-    private readonly EmployeePersonalInformationUpdateCommand _employeePersonalInformationUpdateCommand;
+  private readonly EmployeesService _employeeService;
+  private readonly EmployeePersonalInformationUpdateCommand _employeePersonalInformationUpdateCommand;
 
-    public InternalController(EmployeesService employeeService,
-        EmployeePersonalInformationUpdateCommand employeePersonalInformationUpdateCommand)
+  public InternalController(
+    EmployeesService employeeService,
+    EmployeePersonalInformationUpdateCommand employeePersonalInformationUpdateCommand
+  )
+  {
+    _employeeService = employeeService;
+    _employeePersonalInformationUpdateCommand = employeePersonalInformationUpdateCommand;
+  }
+
+  [HttpPost("create-employee")]
+  public async Task<ActionResult> CreateEmployeeAsync([FromBody] EmployeeCreationParameters employeeCreationParameters)
+  {
+    try
     {
-        _employeeService = employeeService;
-        _employeePersonalInformationUpdateCommand = employeePersonalInformationUpdateCommand;
+      await _employeeService.CreateAsync(employeeCreationParameters);
+      return StatusCode(CreatedStatusCode);
     }
-
-    [HttpPost("create-employee")]
-    public async Task<ActionResult> CreateEmployeeAsync([FromBody] EmployeeCreationParameters employeeCreationParameters)
+    catch (Exception ex)
     {
-        try
-        {
-            await _employeeService.CreateAsync(employeeCreationParameters);
-            return StatusCode(CreatedStatusCode);
-        }
-        catch(Exception ex)
-        {
-            var message = ex.InnerException != null
-                ? ex.InnerException.Message
-                : ex.Message;
+      var message = ex.InnerException != null
+        ? ex.InnerException.Message
+        : ex.Message;
 
-            return Problem(message, null, InternalServerErrorCode);
-        }
+      return Problem(message, null, InternalServerErrorCode);
     }
+  }
 
-    [HttpPost("update-employee-personal-info")]
-    public async Task<ActionResult> CreateEmployeeAsync([FromBody] EmployeePersonalInformationUpdateParameters employeePersonalInformationUpdateParameters)
+  [HttpPost("update-employee-personal-info")]
+  public async Task<ActionResult> CreateEmployeeAsync([FromBody] EmployeePersonalInformationUpdateParameters employeePersonalInformationUpdateParameters)
+  {
+    try
     {
-        try
-        {
-            await _employeePersonalInformationUpdateCommand.ExecuteAsync(employeePersonalInformationUpdateParameters);
-            return StatusCode(UpdatedStatusCode);
-        }
-        catch(Exception ex)
-        {
-            var message = ex.InnerException != null
-                ? ex.InnerException.Message
-                : ex.Message;
-
-            return Problem(message, null, InternalServerErrorCode);
-        }
+      await _employeePersonalInformationUpdateCommand.ExecuteAsync(employeePersonalInformationUpdateParameters);
+      return StatusCode(UpdatedStatusCode);
     }
-
-    [RequiresPermission(UserClaimsProvider.IsAccountsHardDeleteAllowed)]
-    [HttpDelete("delete-employee")]
-    public async Task DeleteEmployeeAsync([FromBody] EmployeeDeletionParameters employeeDeletionParameters)
+    catch (Exception ex)
     {
-        await _employeeService.DeleteAsync(employeeDeletionParameters);
-    }
+      var message = ex.InnerException != null
+        ? ex.InnerException.Message
+        : ex.Message;
 
-    [HttpGet("get-employee")]
-    public async Task<EmployeeDto> GetEmployeeByCorporateEmailAsync([FromQuery] string corporateEmail)
+      return Problem(message, null, InternalServerErrorCode);
+    }
+  }
+
+  [RequiresPermission(UserClaimsProvider.IsAccountsHardDeleteAllowed)]
+  [HttpDelete("delete-employee")]
+  public async Task DeleteEmployeeAsync([FromBody] EmployeeDeletionParameters employeeDeletionParameters)
+  {
+    await _employeeService.DeleteAsync(employeeDeletionParameters);
+  }
+
+  [HttpGet("get-employee")]
+  public async Task<EmployeeDto> GetEmployeeByCorporateEmailAsync([FromQuery] string corporateEmail)
+  {
+    var employee = await _employeeService.GetByCorporateEmailAsync(corporateEmail);
+    return new EmployeeDto(employee);
+  }
+
+  [HttpGet("get-employees")]
+  public async Task<List<EmployeeDto>> GetEmployeesAsync()
+  {
+    var employees = await _employeeService.GetAllAsync(User.GetTenantId());
+
+    return employees
+      .Select(x => new EmployeeDto(x))
+      .ToList();
+  }
+
+  [HttpPost("get-employees-by-ids")]
+  public async Task<EmployeesByIdsDto> GetEmployeesByIdsAsync([FromBody] EmployeesIdsModel ids)
+  {
+    var employees = await _employeeService.GetEmployeesByIdsAsync(ids, User.GetTenantId());
+
+    return new EmployeesByIdsDto
     {
-        var employee = await _employeeService.GetByCorporateEmailAsync(corporateEmail);
-        return new EmployeeDto(employee);
-    }
-
-    [HttpGet("get-employees")]
-    public async Task<List<EmployeeDto>> GetEmployeesAsync()
-    {
-        var employees = await _employeeService.GetAllAsync(User.GetTenantId());
-
-        return employees
-            .Select(x => new EmployeeDto(x))
-            .ToList();
-    }
-
-    [HttpPost("get-employees-by-ids")]
-    public async Task<EmployeesByIdsDto> GetEmployeesByIdsAsync([FromBody] EmployeesIdsModel ids)
-    {
-        var employees = await _employeeService.GetEmployeesByIdsAsync(ids, User.GetTenantId());
-
-        return new EmployeesByIdsDto
-        {
-            Employees = employees
-                .Select(x => new EmployeeById(x))
-                .ToList()
-        };
-    }
+      Employees = employees
+        .Select(x => new EmployeeById(x))
+        .ToList()
+    };
+  }
 }

@@ -1,4 +1,4 @@
-﻿using Core;
+using Core;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,19 +6,19 @@ namespace Application.Queries;
 
 public class CurrentEmployeesQuery
 {
-    private readonly EmployeeDbContext _context;
+  private readonly EmployeeDbContext _context;
 
-    public CurrentEmployeesQuery(EmployeeDbContext context)
-    {
-        _context = context;
-    }
+  public CurrentEmployeesQuery(EmployeeDbContext context)
+  {
+    _context = context;
+  }
 
-    public async Task<IEnumerable<Employee>> GetCurrentEmployeesAsync(long tenantId)
-    {
-        return await _context
-            .Employees
-            .Include(x => x.FinancialMetrics)
-            .Where(x => !x.IsSpecial && x.IsCurrentEmployee && x.TenantId == tenantId)
-            .ToListAsync();
-    }
+  public async Task<IEnumerable<Employee>> GetCurrentEmployeesAsync(long tenantId)
+  {
+    return await _context
+      .Employees
+      .Include(x => x.FinancialMetrics)
+      .Where(x => !x.IsSpecial && x.IsCurrentEmployee && x.TenantId == tenantId)
+      .ToListAsync();
+  }
 }

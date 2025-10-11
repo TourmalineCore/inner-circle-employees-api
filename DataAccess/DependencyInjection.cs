@@ -1,28 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 
 namespace DataAccess;
 
 public static class DependencyInjection
 {
-    private const string DefaultConnection = "DefaultConnection";
+  private const string DefaultConnection = "DefaultConnection";
 
-    public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+  public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+  {
+    var connectionString = configuration.GetConnectionString(DefaultConnection);
+
+    services.AddDbContext<EmployeeDbContext>(options =>
     {
-        var connectionString = configuration.GetConnectionString(DefaultConnection);
+      options.UseNpgsql(connectionString!,
+        o => o.UseNodaTime()
+      );
+    });
 
-        services.AddDbContext<EmployeeDbContext>(options =>
-        {
-            options.UseNpgsql(connectionString!,
-                    o => o.UseNodaTime()
-                );
-        }
-            );
+    services.AddScoped<EmployeeDbContext>();
 
-        services.AddScoped<EmployeeDbContext>();
-
-        return services;
-    }
+    return services;
+  }
 }

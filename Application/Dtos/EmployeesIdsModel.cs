@@ -1,7 +1,7 @@
-﻿namespace Application.Dtos;
+namespace Application.Dtos;
 
 public class EmployeesIdsModel
 {
-	public List<long> EmployeesIds { get; set; }
+  public List<long> EmployeesIds { get; set; }
 }
 

@@ -1,10 +1,10 @@
-﻿namespace Core;
+namespace Core;
 
 public class AnalyticsMetricChanges
 {
-    public List<MetricsRowChanges> MetricsRowsChanges { get; set; }
+  public List<MetricsRowChanges> MetricsRowsChanges { get; set; }
 
-    public TotalEmployeeFinancialMetricsEntry NewTotalMetrics { get; set; }
+  public TotalEmployeeFinancialMetricsEntry NewTotalMetrics { get; set; }
 
-    public EmployeeFinancialTotalMetricsDiff TotalMetricsDiff { get; set; }
+  public EmployeeFinancialTotalMetricsDiff TotalMetricsDiff { get; set; }
 }

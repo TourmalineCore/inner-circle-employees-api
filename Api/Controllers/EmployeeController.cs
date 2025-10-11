@@ -1,4 +1,3 @@
-﻿using Api;
 using Api.Comparers;
 using Api.Responses;
 using Application.Dtos;
@@ -13,68 +12,68 @@ namespace Api.Controllers;
 [Route("api/employees")]
 public class EmployeeController : Controller
 {
-    private readonly EmployeesService _employeesService;
+  private readonly EmployeesService _employeesService;
 
-    public EmployeeController(EmployeesService employeeService)
+  public EmployeeController(EmployeesService employeeService)
+  {
+    _employeesService = employeeService;
+  }
+
+  [RequiresPermission(UserClaimsProvider.ViewPersonalProfile)]
+  [HttpGet("get-profile")]
+  public async Task<EmployeeProfileResponse> GetProfileAsync()
+  {
+    var employee = await _employeesService.GetByCorporateEmailAsync(User.GetCorporateEmail());
+    return new EmployeeProfileResponse(employee);
+  }
+
+  [RequiresPermission(UserClaimsProvider.ViewContacts)]
+  [HttpGet("all")]
+  public async Task<IEnumerable<EmployeeResponse>> GetAllEmployeesAsync()
+  {
+    var tenantId = User.GetTenantId();
+    var userIsAvailableToViewSalaryAndDocumentsData = User.IsAvailableToViewSalaryAndDocumentData();
+
+    if (!userIsAvailableToViewSalaryAndDocumentsData)
     {
-        _employeesService = employeeService;
+      var currentEmployees = await _employeesService.GetCurrentEmployeesAsync(tenantId);
+      return currentEmployees
+        .OrderBy(employee => employee, new EmployeesComparer())
+        .Select(employee => new EmployeeResponse(employee));
     }
 
-    [RequiresPermission(UserClaimsProvider.ViewPersonalProfile)]
-    [HttpGet("get-profile")]
-    public async Task<EmployeeProfileResponse> GetProfileAsync()
-    {
-        var employee = await _employeesService.GetByCorporateEmailAsync(User.GetCorporateEmail());
-        return new EmployeeProfileResponse(employee);
-    }
+    var allEmployees = await _employeesService.GetAllAsync(tenantId);
+    return allEmployees
+      .OrderBy(employee => employee, new EmployeesComparer())
+      .Select(employee => new EmployeeResponse(employee, true));
+  }
 
-    [RequiresPermission(UserClaimsProvider.ViewContacts)]
-    [HttpGet("all")]
-    public async Task<IEnumerable<EmployeeResponse>> GetAllEmployeesAsync()
-    {
-        var tenantId = User.GetTenantId();
-        var userIsAvailableToViewSalaryAndDocumentsData = User.IsAvailableToViewSalaryAndDocumentData();
+  [RequiresPermission(UserClaimsProvider.EditFullEmployeesData)]
+  [HttpPut("update")]
+  public async Task UpdateEmployeeAsync([FromBody] EmployeeUpdateDto employeeUpdateParameters)
+  {
+    await _employeesService.UpdateAsync(employeeUpdateParameters);
+  }
 
-        if(!userIsAvailableToViewSalaryAndDocumentsData)
-        {
-            var currentEmployees = await _employeesService.GetCurrentEmployeesAsync(tenantId);
-            return currentEmployees
-                .OrderBy(employee => employee, new EmployeesComparer())
-                .Select(employee => new EmployeeResponse(employee));
-        }
+  [RequiresPermission(UserClaimsProvider.EditFullEmployeesData)]
+  [HttpGet("{employeeId:long}")]
+  public async Task<EmployeeResponse> GetEmployeeAsync([FromRoute] long employeeId)
+  {
+    var employee = await _employeesService.GetByIdAsync(employeeId);
+    return new EmployeeResponse(employee, User.IsAvailableToViewSalaryAndDocumentData());
+  }
 
-        var allEmployees = await _employeesService.GetAllAsync(tenantId);
-        return allEmployees
-            .OrderBy(employee => employee, new EmployeesComparer())
-            .Select(employee => new EmployeeResponse(employee, true));
-    }
+  [RequiresPermission(UserClaimsProvider.ViewPersonalProfile)]
+  [HttpPut("update-profile")]
+  public async Task UpdateProfileAsync([FromBody] ProfileUpdatingParameters profileUpdatingParameters)
+  {
+    await _employeesService.UpdateProfileAsync(User.GetCorporateEmail(), profileUpdatingParameters);
+  }
 
-    [RequiresPermission(UserClaimsProvider.EditFullEmployeesData)]
-    [HttpPut("update")]
-    public async Task UpdateEmployeeAsync([FromBody] EmployeeUpdateDto employeeUpdateParameters)
-    {
-        await _employeesService.UpdateAsync(employeeUpdateParameters);
-    }
-
-    [RequiresPermission(UserClaimsProvider.EditFullEmployeesData)]
-    [HttpGet("{employeeId:long}")]
-    public async Task<EmployeeResponse> GetEmployeeAsync([FromRoute] long employeeId)
-    {
-        var employee = await _employeesService.GetByIdAsync(employeeId);
-        return new EmployeeResponse(employee, User.IsAvailableToViewSalaryAndDocumentData());
-    }
-
-    [RequiresPermission(UserClaimsProvider.ViewPersonalProfile)]
-    [HttpPut("update-profile")]
-    public async Task UpdateProfileAsync([FromBody] ProfileUpdatingParameters profileUpdatingParameters)
-    {
-        await _employeesService.UpdateProfileAsync(User.GetCorporateEmail(), profileUpdatingParameters);
-    }
-
-    [RequiresPermission(UserClaimsProvider.EditFullEmployeesData)]
-    [HttpDelete("dismiss/{id:long}")]
-    public async Task DismissalEmployeeAsync([FromRoute] long id)
-    {
-        await _employeesService.DismissAsync(id);
-    }
+  [RequiresPermission(UserClaimsProvider.EditFullEmployeesData)]
+  [HttpDelete("dismiss/{id:long}")]
+  public async Task DismissalEmployeeAsync([FromRoute] long id)
+  {
+    await _employeesService.DismissAsync(id);
+  }
 }
