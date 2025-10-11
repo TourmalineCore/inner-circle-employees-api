@@ -1,0 +1,21 @@
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+releases:
+  - name: employees-api
+    labels:
+      app: employees-api
+    wait: true
+    chart: bitnami/aspnet-core
+    version: 4.4.7
+    values:
+      - values.yaml
+      - image:
+          tag: "{{ .StateValues.image.tag }}"
+      - ingress:
+          hostname: "{{ .StateValues.ingress.hostname }}"
+      - extraSecretEnvVars:
+          ConnectionStrings__DefaultConnection: "{{ .StateValues.extraSecretEnvVars.ConnectionStrings__DefaultConnection }}"
+          AuthenticationOptions__PublicSigningKey: "{{ .StateValues.extraSecretEnvVars.AuthenticationOptions__PublicSigningKey }}"
+          AuthenticationOptions__PrivateSigningKey: "{{ .StateValues.extraSecretEnvVars.AuthenticationOptions__PrivateSigningKey }}"
