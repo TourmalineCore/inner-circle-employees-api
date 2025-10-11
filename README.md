@@ -1,6 +1,5 @@
 # inner-circle-employees-api
 
-____
 # Getting started with Docker
 
 You need to create an internal network for configuring interaction between different back-end services.  
