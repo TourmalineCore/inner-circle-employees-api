@@ -1,6 +1,6 @@
-﻿namespace Application.Dtos;
+namespace Application.Dtos;
 
 public readonly struct EmployeeDeletionParameters
 {
-    public string CorporateEmail { get; init; }
+  public string CorporateEmail { get; init; }
 }

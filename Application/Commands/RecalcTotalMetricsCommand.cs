@@ -1,4 +1,4 @@
-﻿using Core;
+using Core;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using NodaTime;
@@ -7,30 +7,37 @@ namespace Application.Commands;
 
 public class RecalcTotalMetricsCommand
 {
-    private readonly EmployeeDbContext _context;
+  private readonly EmployeeDbContext _context;
 
-    public RecalcTotalMetricsCommand(EmployeeDbContext dbContext)
+  public RecalcTotalMetricsCommand(EmployeeDbContext dbContext)
+  {
+    _context = dbContext;
+  }
+
+  public async Task<TotalFinances> ExecuteAsync(
+    IEnumerable<EmployeeFinancialMetrics> employeeFinancialMetrics,
+    CoefficientOptions coefficients,
+    Instant utcNow
+  )
+  {
+    var currentTotalFinances = await _context
+      .Queryable<TotalFinances>()
+      .SingleOrDefaultAsync();
+
+    var newTotalFinances = new TotalFinances(employeeFinancialMetrics, coefficients, utcNow);
+
+    if (currentTotalFinances == null)
     {
-        _context = dbContext;
+      await _context.AddAsync(newTotalFinances);
+    }
+    else
+    {
+      await _context.AddAsync(new TotalFinancesHistory(currentTotalFinances, utcNow));
+      currentTotalFinances.Update(newTotalFinances);
+      _context.Update(currentTotalFinances);
     }
 
-    public async Task<TotalFinances> ExecuteAsync(IEnumerable<EmployeeFinancialMetrics> employeeFinancialMetrics, CoefficientOptions coefficients, Instant utcNow)
-    {
-        var currentTotalFinances = await _context.Queryable<TotalFinances>().SingleOrDefaultAsync();
-        var newTotalFinances = new TotalFinances(employeeFinancialMetrics, coefficients, utcNow);
-
-        if(currentTotalFinances == null)
-        {
-            await _context.AddAsync(newTotalFinances);
-        }
-        else
-        {
-            await _context.AddAsync(new TotalFinancesHistory(currentTotalFinances, utcNow));
-            currentTotalFinances.Update(newTotalFinances);
-            _context.Update(currentTotalFinances);
-        }
-
-        await _context.SaveChangesAsync();
-        return newTotalFinances;
-    }
+    await _context.SaveChangesAsync();
+    return newTotalFinances;
+  }
 }

@@ -1,34 +1,34 @@
-﻿using System.Data;
+using System.Data;
 using NodaTime;
 
 namespace Core;
 
 public class TotalFinances
 {
-    public long Id { get; set; }
+  public long Id { get; set; }
 
-    public decimal PayrollExpense { get; private set; }
+  public decimal PayrollExpense { get; private set; }
 
-    public decimal TotalExpense { get; private set; }
+  public decimal TotalExpense { get; private set; }
 
-    public Instant CreatedAtUtc { get; private set; }
+  public Instant CreatedAtUtc { get; private set; }
 
-    public TotalFinances()
-    {
-    }
+  public TotalFinances()
+  {
+  }
 
-    public TotalFinances(IEnumerable<EmployeeFinancialMetrics> metrics, CoefficientOptions coefficients, Instant createdAtUtc)
-    {
-        PayrollExpense = metrics.Select(x => x.Expenses).Sum();
-        TotalExpense = PayrollExpense + coefficients.OfficeExpenses;
-        CreatedAtUtc = createdAtUtc;
-    }
+  public TotalFinances(IEnumerable<EmployeeFinancialMetrics> metrics, CoefficientOptions coefficients, Instant createdAtUtc)
+  {
+    PayrollExpense = metrics.Select(x => x.Expenses).Sum();
+    TotalExpense = PayrollExpense + coefficients.OfficeExpenses;
+    CreatedAtUtc = createdAtUtc;
+  }
 
-    public void Update(TotalFinances newTotalFinances)
-    {
-        PayrollExpense = newTotalFinances.PayrollExpense;
-        TotalExpense = newTotalFinances.TotalExpense;
-        CreatedAtUtc = newTotalFinances.CreatedAtUtc;
-    }
+  public void Update(TotalFinances newTotalFinances)
+  {
+    PayrollExpense = newTotalFinances.PayrollExpense;
+    TotalExpense = newTotalFinances.TotalExpense;
+    CreatedAtUtc = newTotalFinances.CreatedAtUtc;
+  }
 }
 
