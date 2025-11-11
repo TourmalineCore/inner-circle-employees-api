@@ -18,7 +18,6 @@ public class EmployeesService
   private readonly GetEmployeesByIdsQuery _getEmployeesByIdsQuery;
   private readonly ProfileUpdateCommand _profileUpdateCommand;
   private readonly EmployeeUpdateParametersValidator _employeeUpdateParametersValidator;
-  private readonly EmployeeDismissalTransaction _employeeDismissalTransaction;
   private readonly EmployeeUpdateTransaction _employeeUpdateTransaction;
   private readonly EmployeesForAnalyticsQuery _employeesForAnalyticsQuery;
   private readonly CurrentEmployeesQuery _currentEmployeesQuery;
@@ -30,7 +29,6 @@ public class EmployeesService
     ProfileUpdateCommand updateProfileCommandHandler,
     EmployeeUpdateParametersValidator employeeUpdateParametersValidator,
     EmployeeUpdateTransaction employeeUpdateTransaction,
-    EmployeeDismissalTransaction employeeDismissalTransaction,
     EmployeeQuery employeeQuery,
     IEmployeesQuery employeesQuery,
     GetEmployeesByIdsQuery getEmployeesByIdsQuery,
@@ -44,7 +42,6 @@ public class EmployeesService
     _profileUpdateCommand = updateProfileCommandHandler;
     _employeeUpdateParametersValidator = employeeUpdateParametersValidator;
     _employeeUpdateTransaction = employeeUpdateTransaction;
-    _employeeDismissalTransaction = employeeDismissalTransaction;
     _employeeQuery = employeeQuery;
     _employeesQuery = employeesQuery;
     _getEmployeesByIdsQuery = getEmployeesByIdsQuery;
@@ -115,10 +112,5 @@ public class EmployeesService
     }
 
     await _profileUpdateCommand.ExecuteAsync(corporateEmail, updatingParameters);
-  }
-
-  public async Task DismissAsync(long id)
-  {
-    await _employeeDismissalTransaction.ExecuteAsync(id);
   }
 }

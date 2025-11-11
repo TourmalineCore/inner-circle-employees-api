@@ -17,7 +17,6 @@ public class CurrentEmployeesQuery
   {
     return await _context
       .Employees
-      .Include(x => x.FinancialMetrics)
       .Where(x => !x.IsSpecial && x.IsCurrentEmployee && x.TenantId == tenantId)
       .ToListAsync();
   }

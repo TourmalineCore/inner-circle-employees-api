@@ -29,8 +29,7 @@ public class EmployeePersonalInformationUpdateCommandTests
       "Test",
       "Test",
       "test@tourmalinecore.com",
-      1,
-      true
+      1
     );
 
     _context.Employees.Add(employee);

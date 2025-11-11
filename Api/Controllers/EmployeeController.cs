@@ -1,4 +1,3 @@
-using Api.Comparers;
 using Api.Responses;
 using Application.Dtos;
 using Application.Services;
@@ -38,14 +37,12 @@ public class EmployeeController : Controller
     {
       var currentEmployees = await _employeesService.GetCurrentEmployeesAsync(tenantId);
       return currentEmployees
-        .OrderBy(employee => employee, new EmployeesComparer())
         .Select(employee => new EmployeeResponse(employee));
     }
 
     var allEmployees = await _employeesService.GetAllAsync(tenantId);
     return allEmployees
-      .OrderBy(employee => employee, new EmployeesComparer())
-      .Select(employee => new EmployeeResponse(employee, true));
+      .Select(employee => new EmployeeResponse(employee));
   }
 
   [RequiresPermission(UserClaimsProvider.EditFullEmployeesData)]
@@ -60,7 +57,7 @@ public class EmployeeController : Controller
   public async Task<EmployeeResponse> GetEmployeeAsync([FromRoute] long employeeId)
   {
     var employee = await _employeesService.GetByIdAsync(employeeId);
-    return new EmployeeResponse(employee, User.IsAvailableToViewSalaryAndDocumentData());
+    return new EmployeeResponse(employee);
   }
 
   [RequiresPermission(UserClaimsProvider.ViewPersonalProfile)]
@@ -68,12 +65,5 @@ public class EmployeeController : Controller
   public async Task UpdateProfileAsync([FromBody] ProfileUpdatingParameters profileUpdatingParameters)
   {
     await _employeesService.UpdateProfileAsync(User.GetCorporateEmail(), profileUpdatingParameters);
-  }
-
-  [RequiresPermission(UserClaimsProvider.EditFullEmployeesData)]
-  [HttpDelete("dismiss/{id:long}")]
-  public async Task DismissalEmployeeAsync([FromRoute] long id)
-  {
-    await _employeesService.DismissAsync(id);
   }
 }

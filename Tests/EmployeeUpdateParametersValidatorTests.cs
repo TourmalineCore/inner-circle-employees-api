@@ -15,11 +15,7 @@ public class EmployeeUpdateParametersValidatorTests
     var request = new EmployeeUpdateDto
     {
       EmployeeId = It.IsAny<long>(),
-      EmploymentType = 0.5m,
-      FullSalary = 1,
-      RatePerHour = 0,
       Phone = phoneNumber,
-      HireDate = DateTime.Now
     };
 
     var employeeUpdateParametersValidator = new EmployeeUpdateParametersValidator();
@@ -37,11 +33,7 @@ public class EmployeeUpdateParametersValidatorTests
     var request = new EmployeeUpdateDto
     {
       EmployeeId = It.IsAny<long>(),
-      EmploymentType = 0.5m,
-      FullSalary = 1,
-      RatePerHour = 0,
       Phone = validPhoneNumber,
-      HireDate = DateTime.Now
     };
 
     var employeeUpdateParametersValidator = new EmployeeUpdateParametersValidator();
