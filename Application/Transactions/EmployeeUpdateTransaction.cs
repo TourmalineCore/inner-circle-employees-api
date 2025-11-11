@@ -51,9 +51,12 @@ public class EmployeeUpdateTransaction
   {
     employee.Update(
       request.Phone,
+      request.BirthDate,
+      request.Specialization,
       request.PersonalEmail,
       request.GitHub,
-      request.GitLab
+      request.GitLab,
+      request.WorkerTime
     );
 
     _context.Update(employee);

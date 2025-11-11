@@ -20,7 +20,14 @@ public class ProfileUpdateCommand
       .Queryable<Employee>()
       .SingleAsync(x => x.CorporateEmail == corporateEmail && x.DeletedAtUtc == null);
 
-    employee.Update(request.Phone, request.PersonalEmail, request.GitHub, request.GitLab);
+    employee.UpdateProfile(
+      request.Phone,
+      request.Specialization,
+      request.PersonalEmail,
+      request.GitHub,
+      request.GitLab,
+      request.WorkerTime
+    );
 
     _context.Update(employee);
     await _context.SaveChangesAsync();
