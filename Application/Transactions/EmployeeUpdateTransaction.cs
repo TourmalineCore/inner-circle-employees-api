@@ -52,7 +52,7 @@ public class EmployeeUpdateTransaction
     employee.Update(
       request.Phone,
       request.BirthDate,
-      request.Specialization,
+      request.Specializations,
       request.PersonalEmail,
       request.GitHub,
       request.GitLab,

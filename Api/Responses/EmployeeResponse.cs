@@ -23,7 +23,7 @@ public class EmployeeResponse
 
   public bool? IsCurrentEmployee { get; init; }
 
-  public List<Specialization> Specialization { get; init; }
+  public List<Specialization> Specializations { get; init; }
 
   public string? BirthDate { get; init; }
 
@@ -39,7 +39,7 @@ public class EmployeeResponse
     GitHub = employee.GitHub;
     GitLab = employee.GitLab; 
     BirthDate = employee.BirthDate;
-    Specialization = employee.Specialization ?? new List<Specialization>();
+    Specializations = employee.Specializations ?? new List<Specialization>();
     WorkerTime = employee.WorkerTime;
 
     IsBlankEmployee = employee.IsBlankEmployee;

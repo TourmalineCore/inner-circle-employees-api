@@ -10,6 +10,6 @@ public class EmployeeUpdateParametersValidator : AbstractValidator<EmployeeUpdat
     RuleFor(x => x.EmployeeId).NotNull().GreaterThanOrEqualTo(0);
     RuleFor(x => x.Phone).PhoneNumberMustBeValid();
     RuleFor(x => x.BirthDate).NotNull();
-    RuleFor(x => x.Specialization).NotEmpty();
+    RuleFor(x => x.Specializations).NotEmpty();
   }
 }

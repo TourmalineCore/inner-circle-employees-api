@@ -77,7 +77,7 @@ namespace SalaryService.DataAccess.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
-                    b.Property<int[]>("Specialization")
+                    b.Property<int[]>("Specializations")
                         .HasColumnType("integer[]");
 
                     b.Property<long>("TenantId")

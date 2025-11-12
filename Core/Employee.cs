@@ -27,7 +27,7 @@ public class Employee : IIdentityEntity
 
   public string? WorkerTime { get; set; }
 
-  public List<Specialization>? Specialization { get; set; }
+  public List<Specialization>? Specializations { get; set; }
 
   public bool IsBlankEmployee { get; set; }
 
@@ -77,7 +77,7 @@ public class Employee : IIdentityEntity
     GitLab = gitLab;
     WorkerTime = workerTime;
     BirthDate = birthDate;
-    Specialization = specializations;
+    Specializations = specializations;
   }
 
   public void UpdateProfile(
@@ -94,7 +94,7 @@ public class Employee : IIdentityEntity
     GitHub = gitHub;
     GitLab = gitLab;
     WorkerTime = workerTime;
-    Specialization = specializations;
+    Specializations = specializations;
   }
 
   public void UpdatePersonalInfo(
