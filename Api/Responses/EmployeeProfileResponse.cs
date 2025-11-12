@@ -36,6 +36,6 @@ public class EmployeeProfileResponse
     GitLab = employee.GitLab;
     BirthDate = employee.BirthDate;
     WorkerTime = employee.WorkerTime;
-    Specializations = employee.Specializations;
+    Specializations = employee.Specializations ?? new List<Specialization>();
   }
 }
