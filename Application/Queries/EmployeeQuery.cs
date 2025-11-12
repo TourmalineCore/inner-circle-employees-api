@@ -17,7 +17,6 @@ public class EmployeeQuery
   {
     var employee = await _context
       .Queryable<Employee>()
-      .Include(x => x.FinancialMetrics)
       .SingleAsync(x => x.Id == employeeId && x.DeletedAtUtc == null);
 
     if (employee == null)
@@ -32,7 +31,6 @@ public class EmployeeQuery
   {
     var employee = await _context
       .Queryable<Employee>()
-      .Include(x => x.FinancialMetrics)
       .SingleAsync(x => x.CorporateEmail == corporateEmail && x.DeletedAtUtc == null);
 
     if (employee == null)

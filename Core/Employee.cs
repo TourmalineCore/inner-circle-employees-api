@@ -22,17 +22,9 @@ public class Employee : IIdentityEntity
 
   public string? GitLab { get; set; }
 
-  public EmployeeFinancialMetrics? FinancialMetrics { get; set; }
-
-  public Instant? HireDate { get; set; }
-
   public bool IsBlankEmployee { get; set; }
 
   public bool IsCurrentEmployee { get; set; }
-
-  public bool IsEmployedOfficially { get; set; }
-
-  public EmployeePersonnelNumber? PersonnelNumber { get; set; }
 
   public Instant? DeletedAtUtc { get; set; }
 
@@ -45,8 +37,7 @@ public class Employee : IIdentityEntity
     string lastName,
     string middleName,
     string corporateEmail,
-    long tenantId,
-    bool isEmployedOfficially = false
+    long tenantId
   )
   {
     FirstName = firstName;
@@ -55,7 +46,6 @@ public class Employee : IIdentityEntity
     CorporateEmail = corporateEmail;
     IsBlankEmployee = true;
     IsCurrentEmployee = false;
-    IsEmployedOfficially = isEmployedOfficially;
     TenantId = tenantId;
   }
 
@@ -86,52 +76,6 @@ public class Employee : IIdentityEntity
     FirstName = firstName;
     LastName = lastName;
     MiddleName = middleName;
-  }
-
-  public void Update(
-    string phone,
-    string? personalEmail,
-    string? gitHub,
-    string? gitLab,
-    Instant? hireDate,
-    bool isEmployedOfficially,
-    string? personnelNumber
-  )
-  {
-    Phone = phone;
-    PersonalEmail = personalEmail;
-    GitHub = gitHub;
-    GitLab = gitLab;
-    HireDate = hireDate;
-    IsEmployedOfficially = isEmployedOfficially;
-    IsBlankEmployee = false;
-    IsCurrentEmployee = true;
-
-    if (!IsEmployedOfficially)
-    {
-      PersonnelNumber = null;
-    }
-
-    if (!string.IsNullOrEmpty(personnelNumber))
-    {
-      PersonnelNumber = new EmployeePersonnelNumber(personnelNumber);
-    }
-  }
-
-  public void UpdateFinancialMetrics(
-    FinancesForPayroll financesForPayroll,
-    CoefficientOptions coefficients,
-    WorkingPlan workingPlan,
-    Instant createdAtUtc
-  )
-  {
-    FinancialMetrics = new EmployeeFinancialMetrics(
-      financesForPayroll,
-      IsEmployedOfficially,
-      coefficients,
-      workingPlan,
-      createdAtUtc
-    );
   }
 
   public string GetFullName()

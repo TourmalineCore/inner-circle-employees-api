@@ -3,6 +3,7 @@ using System;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NodaTime;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SalaryService.DataAccess.Migrations
 {
     [DbContext(typeof(EmployeeDbContext))]
-    partial class EmployeeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251111061733_RemoveFinancialsAndAnalyticsFunctional")]
+    partial class RemoveFinancialsAndAnalyticsFunctional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,6 +129,82 @@ namespace SalaryService.DataAccess.Migrations
                             PersonalEmail = "trial@gmail.com",
                             TenantId = 1L
                         });
+                });
+
+            modelBuilder.Entity("Core.EmployeeFinancialMetricsHistory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<decimal>("AccountingPerMonth")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Earnings")
+                        .HasColumnType("numeric");
+
+                    b.Property<long>("EmployeeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("EmploymentType")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Expenses")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("GrossSalary")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("HourlyCostFact")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("HourlyCostHand")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("IncomeTaxContributions")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("InjuriesContributions")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("MedicalContributions")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("NetSalary")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("ParkingCostPerMonth")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Pay")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("PensionContributions")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Prepayment")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Profit")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("ProfitAbility")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("RatePerHour")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("SocialInsuranceContributions")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeFinancialMetricsHistory");
                 });
 
             modelBuilder.Entity("Core.WorkingPlan", b =>

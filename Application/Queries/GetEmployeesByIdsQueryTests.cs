@@ -33,8 +33,7 @@ public class GetEmployeesByIdsQueryTests
       "employee1",
       "employee1",
       "employee1@tourmalinecore.com",
-      TENANT_ID_DIFF,
-      true
+      TENANT_ID_DIFF
     );
 
     var employee2 = new Employee(
@@ -42,8 +41,7 @@ public class GetEmployeesByIdsQueryTests
       "employee2",
       "employee2",
       "employee2@tourmalinecore.com",
-      TENANT_ID,
-      true
+      TENANT_ID
     );
 
     var employee3 = new Employee(
