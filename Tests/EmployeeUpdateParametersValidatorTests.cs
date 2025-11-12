@@ -1,5 +1,6 @@
 using Application.Dtos;
 using Application.Validators;
+using Core.Entities;
 using Moq;
 
 namespace SalaryService.Tests;
@@ -16,6 +17,8 @@ public class EmployeeUpdateParametersValidatorTests
     {
       EmployeeId = It.IsAny<long>(),
       Phone = phoneNumber,
+      BirthDate = "2025-09-20",
+      Specializations = new List<Specialization> { Specialization.Frontend }
     };
 
     var employeeUpdateParametersValidator = new EmployeeUpdateParametersValidator();
@@ -34,6 +37,8 @@ public class EmployeeUpdateParametersValidatorTests
     {
       EmployeeId = It.IsAny<long>(),
       Phone = validPhoneNumber,
+      BirthDate = "2025-09-20",
+      Specializations = new List<Specialization> { Specialization.Frontend }
     };
 
     var employeeUpdateParametersValidator = new EmployeeUpdateParametersValidator();

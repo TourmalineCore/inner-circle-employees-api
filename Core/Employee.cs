@@ -1,3 +1,4 @@
+using Core.Entities;
 using NodaTime;
 
 namespace Core;
@@ -21,6 +22,12 @@ public class Employee : IIdentityEntity
   public string? GitHub { get; set; }
 
   public string? GitLab { get; set; }
+
+  public string? BirthDate { get; set; }
+
+  public string? WorkerTime { get; set; }
+
+  public List<Specialization>? Specializations { get; set; }
 
   public bool IsBlankEmployee { get; set; }
 
@@ -56,15 +63,39 @@ public class Employee : IIdentityEntity
 
   public void Update(
     string phone,
+    string birthDate,
+    List<Specialization> specializations,
     string? personalEmail,
     string? gitHub,
-    string? gitLab
+    string? gitLab,
+    string? workerTime
   )
   {
     PersonalEmail = personalEmail;
     Phone = phone;
     GitHub = gitHub;
     GitLab = gitLab;
+    WorkerTime = workerTime;
+    BirthDate = birthDate;
+    Specializations = specializations;
+    IsBlankEmployee = false;
+  }
+
+  public void UpdateProfile(
+   string phone,
+   List<Specialization> specializations,
+   string? personalEmail,
+   string? gitHub,
+   string? gitLab,
+   string? workerTime
+  )
+  {
+    PersonalEmail = personalEmail;
+    Phone = phone;
+    GitHub = gitHub;
+    GitLab = gitLab;
+    WorkerTime = workerTime;
+    Specializations = specializations;
   }
 
   public void UpdatePersonalInfo(

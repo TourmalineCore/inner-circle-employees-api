@@ -1,4 +1,5 @@
 using Core;
+using Core.Entities;
 
 namespace Api.Responses;
 
@@ -22,6 +23,12 @@ public class EmployeeResponse
 
   public bool? IsCurrentEmployee { get; init; }
 
+  public List<Specialization> Specializations { get; init; }
+
+  public string? BirthDate { get; init; }
+
+  public string? WorkerTime { get; init; }
+
   public EmployeeResponse(Employee employee)
   {
     EmployeeId = employee.Id;
@@ -30,7 +37,10 @@ public class EmployeeResponse
     PersonalEmail = employee.PersonalEmail;
     Phone = employee.Phone;
     GitHub = employee.GitHub;
-    GitLab = employee.GitLab;
+    GitLab = employee.GitLab; 
+    BirthDate = employee.BirthDate;
+    Specializations = employee.Specializations ?? new List<Specialization>();
+    WorkerTime = employee.WorkerTime;
 
     IsBlankEmployee = employee.IsBlankEmployee;
     IsCurrentEmployee = employee.IsCurrentEmployee;
