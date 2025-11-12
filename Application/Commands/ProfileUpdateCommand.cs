@@ -22,7 +22,7 @@ public class ProfileUpdateCommand
 
     employee.UpdateProfile(
       request.Phone,
-      request.Specialization,
+      request.Specializations,
       request.PersonalEmail,
       request.GitHub,
       request.GitLab,

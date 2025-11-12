@@ -6,7 +6,7 @@ public readonly struct ProfileUpdatingParameters
 {
   public string Phone { get; init; }
 
-  public List<Specialization> Specialization { get; init; }
+  public List<Specialization> Specializations { get; init; }
 
   public string? PersonalEmail { get; init; }
 
