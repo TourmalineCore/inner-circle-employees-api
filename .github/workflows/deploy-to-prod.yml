@@ -61,4 +61,4 @@ jobs:
           # The option --exit-code-from ensures that the command's exit code exactly matches the exit code of the specified service.
           # Learn more about '> /dev/null 2>&1': https://stackoverflow.com/a/42919998
           # In essence it merges output and error streams and doesn't show errors in the terminal to avoid leakage of secrets in the pipeline
-          docker compose --profile production-e2e-tests up --exit-code-from inner-circle-employees-api-karate-tests > /dev/null 2>&1
+          docker compose --profile production-e2e-tests up --abort-on-container-exit > /dev/null 2>&1
