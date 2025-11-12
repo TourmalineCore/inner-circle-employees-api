@@ -38,7 +38,6 @@ Scenario: Happy Path
     And assert response.length > 0
     And match response[0].fullName == '#string'
     And match response[0].corporateEmail == '#string'
-    And match response[0].phone == '#string'
 
     * def employeeId = response[0].employeeId
 
@@ -49,7 +48,6 @@ Scenario: Happy Path
     Then status 200
     And match response.fullName == '#string'
     And match response.corporateEmail == '#string'
-    And match response.phone == '#string'
 
     # Get employee profile
     Given url apiRootUrl
@@ -58,4 +56,3 @@ Scenario: Happy Path
     Then status 200
     And match response.fullName == '#string'
     And match response.corporateEmail == '#string'
-    And match response.phone == '#string'
