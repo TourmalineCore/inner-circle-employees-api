@@ -78,6 +78,7 @@ public class Employee : IIdentityEntity
     WorkerTime = workerTime;
     BirthDate = birthDate;
     Specializations = specializations;
+    IsBlankEmployee = false;
   }
 
   public void UpdateProfile(
