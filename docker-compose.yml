@@ -1,35 +1,108 @@
 services:
-  employees-db:
-    container_name: 'employees-db'
-    image: postgres:14.2-alpine
-    restart: always
+  inner-circle-employees-api-db:
+    image: postgres:14
+    container_name: inner-circle-employees-api-db
+    profiles:
+      - DbOnly
+      - MockForDevelopment
+      - MockForTests
+      - MockForPullRequest
     environment:
+      POSTGRES_DB: inner-circle-employees-api-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: employees-db
     ports:
-      - 10009:5432
+      - 7506:5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
-      - employees-network
+      - inner-circle-employees-api-network
 
-  employees-api:
-    container_name: 'employees-api'
+  inner-circle-employees-api:
+    container_name: inner-circle-employees-api
+    profiles:
+      - MockForPullRequest
     depends_on:
-      - employees-db
+      - inner-circle-employees-api-db
     build:
-      dockerfile: Api/Dockerfile
+      dockerfile: ./Dockerfile
       context: .
+      args:
+        EXCLUDE_UNIT_TESTS_FROM_BUILD: "true"
     ports:
-      - 10010:80
+      - 6506:80
     environment:
-      - ASPNETCORE_ENVIRONMENT=MockForDevelopment
-      - LOGS_PATH=/var/log/employees-api
-      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Host=employees-db;port=5432;Database=employees-db
+      - ASPNETCORE_ENVIRONMENT=MockForPullRequest
     networks:
-      - employees-network
-      - ic-backend-deb
+      - inner-circle-employees-api-network
+
+  inner-circle-employees-api-mock-server:
+    container_name: 'inner-circle-employees-api-mock-server'
+    profiles:
+      - MockForDevelopment
+      - MockForTests
+      - MockForPullRequest
+    image: mockserver/mockserver:5.15.0
+    command: -logLevel INFO
+    ports:
+      - 8506:1080
+    volumes:
+      # this is needed so that we can spin it up from within Dev Container where LOCAL_WORKSPACE_FOLDER is defined and from a simple OS terminal of the repo root
+      - ${LOCAL_WORKSPACE_FOLDER:-.}/e2e/mock-server-initialization.json:/config/mock-server-initialization.json
+    environment:
+      SERVER_PORT: 1080
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/mock-server-initialization.json
+    networks:
+      - inner-circle-employees-api-network
+
+  inner-circle-employees-api-karate-tests:
+    container_name: 'inner-circle-employees-api-karate-tests'
+    profiles:
+      - MockForPullRequest
+    build:
+      dockerfile: ./e2e/KarateDockerfile
+      context: .
+    # service_started is not what we need, we need deps to be healthy and ready, this needs to be implemented in api and mock-server first 
+    depends_on:
+      inner-circle-employees-api:
+        condition: service_started
+      inner-circle-employees-api-mock-server:
+        condition: service_started
+    # restart twice in case of not ready db or network failures
+    restart: on-failure:2
+    command: [ "karate", "/karate" ]
+    volumes:
+      # similar to mock-server volumes we need to support both runs: from Dev Container and from OS
+      - ${LOCAL_WORKSPACE_FOLDER:-.}:/karate
+
+    environment:
+      # here the port is 1080 because it needs to be an internal port, not an external which is 8501 in this case
+      AUTH_API_ROOT_URL: "http://inner-circle-employees-api-mock-server:1080"
+      API_ROOT_URL: "http://inner-circle-employees-api"
+      SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES: "true"
+    networks:
+      - inner-circle-employees-api-network
+  
+  production-karate-tests:
+    container_name: 'production-karate-tests'
+    profiles: ['production-e2e-tests']
+    build:
+      dockerfile: ./e2e/KarateDockerfile
+      context: .
+    # restart twice in case of not ready db or network failures
+    restart: on-failure:2
+    command: ["karate", "/karate"]
+    volumes:
+      - .:/karate
+    environment:
+      AUTH_API_ROOT_URL: "https://innercircle.tourmalinecore.com/api"
+      API_ROOT_URL: "https://innercircle.tourmalinecore.com"
+      SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES: "false"
+      AUTH_LOGIN: ${AUTH_LOGIN}
+      AUTH_PASSWORD: ${AUTH_PASSWORD}
 
 networks:
-  employees-network: {}
-  ic-backend-deb:
-    external: true
+  inner-circle-employees-api-network: {}

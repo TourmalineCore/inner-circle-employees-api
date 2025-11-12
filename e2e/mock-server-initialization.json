@@ -1,0 +1,17 @@
+[
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/auth/login"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWxAbWFpbC5ydSIsImNvcnBvcmF0ZUVtYWlsIjoibWFpbEBtYWlsLnJ1IiwidGVuYW50SWQiOiIxIiwiYWNjb3VudElkIjoiMyIsImVtcGxveWVlSWQiOiIyIiwicGVybWlzc2lvbnMiOlsiVmlld0NvbnRhY3RzIiwgIkVkaXRGdWxsRW1wbG95ZWVzRGF0YSJdfQ==\" }}",
+      "headers": {
+        "Content-Type": [
+            "application/json"
+        ]
+      }
+    }
+  }
+]

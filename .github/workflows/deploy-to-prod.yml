@@ -41,3 +41,24 @@ jobs:
             --state-values-set extraSecretEnvVars.AuthenticationOptions__PublicSigningKey=${{ secrets.DEV_PUBLIC_SIGNING_KEY }}
             --state-values-set extraSecretEnvVars.AuthenticationOptions__PrivateSigningKey=${{ secrets.DEV_PRIVATE_SIGNING_KEY }}
           helmfile-auto-init: "false"
+
+  e2e-karate-test-prod:
+    runs-on: ubuntu-22.04
+    needs: [deploy-to-prod]
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+     
+      # Get secrets to sign in
+      - name: Set up Docker Compose environment variables
+        run: |
+          echo AUTH_LOGIN=${{ secrets.AUTH_LOGIN }} >> .env
+          echo AUTH_PASSWORD=${{ secrets.AUTH_PASSWORD }} >> .env
+      
+      - name: Run service via docker-compose and run Karate-tests
+        # Find text with 'failed' and 'passed' in logs from karate-testing container
+        run: |
+          # The option --exit-code-from ensures that the command's exit code exactly matches the exit code of the specified service.
+          # Learn more about '> /dev/null 2>&1': https://stackoverflow.com/a/42919998
+          # In essence it merges output and error streams and doesn't show errors in the terminal to avoid leakage of secrets in the pipeline
+          docker compose --profile MockForPullRequest up --exit-code-from inner-circle-items-api-karate-tests > /dev/null 2>&1
