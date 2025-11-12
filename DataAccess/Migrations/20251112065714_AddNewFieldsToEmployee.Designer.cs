@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SalaryService.DataAccess.Migrations
 {
     [DbContext(typeof(EmployeeDbContext))]
-    [Migration("20251112063309_AddNewFieldsToEmployee")]
+    [Migration("20251112065714_AddNewFieldsToEmployee")]
     partial class AddNewFieldsToEmployee
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
