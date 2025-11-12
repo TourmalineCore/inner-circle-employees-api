@@ -1,33 +1,84 @@
 # inner-circle-employees-api
 
-# Getting started with Docker
+## Run in Visual Studio
 
-You need to create an internal network for configuring interaction between different back-end services.  
-You can do it using the following command in your terminal: `docker network create ic-backend-deb`.  
-Note: If you already has this network, skip this step.
-
-To start the service, you should go to the solution folder and enter this command in the terminal. This command starts the service in Docker and raises the database.
-```
-docker-compose up -d
+First run this script to run a db and mocked external deps:
+```bash
+docker compose --profile MockForDevelopment up --build
 ```
 
-You can use Swagger to see all roots by following this link:
+## Migrations
+
+### Adding a new migration  (Windows via Visual Studio)
+
+Run the database using docker compose executing the following script (don't close the terminal unless you want to stop the containers)
+```bash
+docker compose --profile DbOnly up --build
 ```
-http://localhost:5000/index.html
-```
-Service requests are made like this
-```
-GET http://localhost:5000/api/finances/get-finance-data
-POST http://localhost:5000/api/employees/create-employee
+>Note: `--build` gurantees that we run the latest code after re-applying the script
+
+After making changes to the model and AppDbContext open Tools -> NuGet Package Manager -> Package Manager Console
+
+If you want to use 'Update-Database' commands to apply migrations to the database please execute following command in Package Manager Console every time you open the solution.
+```bash
+$env:ASPNETCORE_ENVIRONMENT = 'MockForDevelopment';
 ```
 
-## Configurations
+Execute the following with your migration name
+```bash
+Add-Migration <YOUR_MIGRATION_NAME> -Project Application -Context AppDbContext
+```
 
-- MockForPullRequest - used in PR pipeline to run the service in isolation (no external deps) and run its Karate tests against it
-- MockForDevelopment - used locally when you run the service in Visual Studio e.g. in Debug and don't want to spin up any external deps
-- LocalEnvForDevelopment - used locally when you run the service in Visual Studio and you want to connect to its external deps from Local Env (ToDo not there yet)
-- ProdForDevelopment - used locally when you run the service in Visual Studio and want to connect to its external deps from Prod specially dedicated Local Development Tenant (ToDo, need to complete tenants, secrets need to be available in the developer PC env vars)
-- ProdForDeployment - used when we run the service in Prod, it shouldn't contain any secrets, it should be a Release build, using real Prod external deps
+To apply migration run the following:
+```bash
+Update-Database -Project Application -Context AppDbContext
+```
+
+## Karate Tests
+
+### Run Karate Tests Against Api Running in IDE (not Docker Compose)
+
+Run Db and MockServer executing the following command (don't close the terminal unless you want to stop the containers)
+
+```bash
+docker compose --profile MockForDevelopment up --build
+```
+
+Then execute following command inside of the dev-container
+```bash
+API_ROOT_URL=http://host.docker.internal:5506 java -jar /karate.jar .
+```
+
+### Run Karate against Api, Db, and MockServer in Docker Compose
+
+Run Api, Db, and MockServer executing the following command (don't close the terminal unless you want to stop the containers)
+
+```bash
+docker compose --profile MockForTests up --build
+```
+
+Then execute following command inside of the dev-container
+```bash
+API_ROOT_URL=http://localhost:6506 java -jar /karate.jar .
+```
+
+### Running Karate Tests, Api, Db, and MockServer in Docker Compose
+
+Run the docker compose with MockForPullRequest profile executing the following command (don't close the terminal unless you want to stop the containers)
+
+```bash
+docker compose --profile MockForPullRequest up --build
+```
+>Note: this also includes Karate Tests run by default. However, if you want to run the test again from Dev Container execute:
+```bash
+API_ROOT_URL=http://localhost:6506 java -jar /karate.jar .
+```
+
+## Swagger
+
+You can fetch OpenApi endpoints and types contract using this path `/swagger/openapi/v1.json`. Swagger UI is accessible here `/swagger/index.html`. 
+
+However, UI doesn't support requests execution, this requires adding Auth dialog to pass a token. It is a bi
 
 ## Database scheme 
 
