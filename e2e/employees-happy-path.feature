@@ -50,3 +50,12 @@ Scenario: Happy Path
     And match response.fullName == '#string'
     And match response.corporateEmail == '#string'
     And match response.phone == '#string'
+
+    # Get employee profile
+    Given url apiRootUrl
+    Given path '/employees/get-profile'
+    When method GET
+    Then status 200
+    And match response.fullName == '#string'
+    And match response.corporateEmail == '#string'
+    And match response.phone == '#string'
