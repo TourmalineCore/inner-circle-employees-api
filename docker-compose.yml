@@ -99,7 +99,7 @@ services:
       - .:/karate
     environment:
       AUTH_API_ROOT_URL: "https://innercircle.tourmalinecore.com/api"
-      API_ROOT_URL: "https://innercircle.tourmalinecore.com"
+      API_ROOT_URL: "https://innercircle.tourmalinecore.com/api/employees"
       SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES: "false"
       AUTH_LOGIN: ${AUTH_LOGIN}
       AUTH_PASSWORD: ${AUTH_PASSWORD}
