@@ -15,7 +15,7 @@ Scenario: Happy Path
     
     # Authentication
     Given url authApiRootUrl
-    And path '/auth/login'
+    And path '/login'
     And request
     """
     {
@@ -32,7 +32,7 @@ Scenario: Happy Path
 
     # Get employees list
     Given url apiRootUrl
-    Given path '/employees/all'
+    Given path '/all'
     When method GET
     Then status 200
     And assert response.length > 0
@@ -43,7 +43,7 @@ Scenario: Happy Path
 
     # Get employee by employeeId
     Given url apiRootUrl
-    Given path '/employees', employeeId
+    Given path '', employeeId
     When method GET
     Then status 200
     And match response.fullName == '#string'
@@ -51,7 +51,7 @@ Scenario: Happy Path
 
     # Get employee profile
     Given url apiRootUrl
-    Given path '/employees/get-profile'
+    Given path '/get-profile'
     When method GET
     Then status 200
     And match response.fullName == '#string'
