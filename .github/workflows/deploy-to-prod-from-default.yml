@@ -29,7 +29,7 @@ jobs:
           helmfile-version: 'v0.164.0'
           helm-version: 'v3.18.0'
           helmfile-args: >
-            apply --suppress-diff --namespace ${{ secrets.INNER_CIRCLE_PROD_NAMESPACE }} -f ci/helmfile.yaml
+            apply --suppress-diff --namespace ${{ secrets.INNER_CIRCLE_PROD_NAMESPACE }} -f Api/ci/helmfile.yaml
             --state-values-set image.tag=sha-${{ github.sha }} 
             --state-values-set ingress.hostname=${{ secrets.INNER_CIRCLE_PROD_HOSTNAME }}
             --state-values-set extraSecretEnvVars.ConnectionStrings__DefaultConnection=${{ secrets.INNER_CIRCLE_PROD_EMPLOYEES_DB_CONNECTION_STRING }}
