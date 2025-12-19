@@ -32,7 +32,7 @@ Scenario: Happy Path
 
     # Get employees list
     Given url apiRootUrl
-    Given path '/all'
+    Given path '/employees/all'
     When method GET
     Then status 200
     And assert response.length > 0
@@ -43,7 +43,7 @@ Scenario: Happy Path
 
     # Get employee by employeeId
     Given url apiRootUrl
-    Given path '', employeeId
+    Given path '/employees', employeeId
     When method GET
     Then status 200
     And match response.fullName == '#string'
@@ -51,7 +51,7 @@ Scenario: Happy Path
 
     # Get employee profile
     Given url apiRootUrl
-    Given path '/get-profile'
+    Given path '/employees/get-profile'
     When method GET
     Then status 200
     And match response.fullName == '#string'
