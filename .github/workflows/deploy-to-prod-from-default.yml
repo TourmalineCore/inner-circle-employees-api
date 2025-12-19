@@ -34,6 +34,7 @@ jobs:
             --state-values-set ingress.hostname=${{ secrets.INNER_CIRCLE_PROD_HOSTNAME }}
             --state-values-set extraSecretEnvVars.ConnectionStrings__DefaultConnection=${{ secrets.INNER_CIRCLE_PROD_EMPLOYEES_DB_CONNECTION_STRING }}
             --state-values-set extraSecretEnvVars.AuthenticationOptions__PublicSigningKey=${{ secrets.INNER_CIRCLE_PROD_PUBLIC_SIGNING_KEY }}
+            --state-values-set extraSecretEnvVars.AuthenticationOptions__PrivateSigningKey=${{ secrets.INNER_CIRCLE_PROD_PRIVATE_SIGNING_KEY }}
           helmfile-auto-init: "false"
 
   run-e2e-tests:
