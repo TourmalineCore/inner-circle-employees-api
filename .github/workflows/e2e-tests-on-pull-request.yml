@@ -69,12 +69,3 @@ jobs:
           "AUTH_API_ROOT_URL": "http://localhost:30090/api/auth"
           "API_ROOT_URL": "http://localhost:30090/api/employees"
           "SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES": "false"
-
-  e2e-karate-tests-in-docker-compose:
-    runs-on: ubuntu-24.04
-    steps:
-    - uses: actions/checkout@v4
-    - name: Run service via docker-compose and run Karate-tests
-      run: |
-        # The option --exit-code-from ensures that the command's exit code exactly matches the exit code of the specified service.
-        docker compose --profile MockForPullRequest up --exit-code-from inner-circle-items-api-karate-tests
