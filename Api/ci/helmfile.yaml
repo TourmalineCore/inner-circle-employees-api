@@ -18,4 +18,3 @@ releases:
       - extraSecretEnvVars:
           ConnectionStrings__DefaultConnection: "{{ .StateValues.extraSecretEnvVars.ConnectionStrings__DefaultConnection }}"
           AuthenticationOptions__PublicSigningKey: "{{ .StateValues.extraSecretEnvVars.AuthenticationOptions__PublicSigningKey }}"
-          AuthenticationOptions__PrivateSigningKey: "{{ .StateValues.extraSecretEnvVars.AuthenticationOptions__PrivateSigningKey }}"
