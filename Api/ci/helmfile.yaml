@@ -1,6 +1,6 @@
 repositories:
   - name: bitnami
-    url: https://charts.bitnami.com/bitnami
+    url: https://mirror.yandex.ru/helm/charts.bitnami.com
 
 releases:
   - name: employees-api
@@ -18,4 +18,3 @@ releases:
       - extraSecretEnvVars:
           ConnectionStrings__DefaultConnection: "{{ .StateValues.extraSecretEnvVars.ConnectionStrings__DefaultConnection }}"
           AuthenticationOptions__PublicSigningKey: "{{ .StateValues.extraSecretEnvVars.AuthenticationOptions__PublicSigningKey }}"
-          AuthenticationOptions__PrivateSigningKey: "{{ .StateValues.extraSecretEnvVars.AuthenticationOptions__PrivateSigningKey }}"

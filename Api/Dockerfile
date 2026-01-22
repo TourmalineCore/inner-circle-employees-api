@@ -2,6 +2,9 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+# use root to be able to use privilidged port 80
+# https://github.com/dotnet/aspnetcore/discussions/53015
+USER root
 WORKDIR /app
 EXPOSE 80
 
@@ -10,8 +13,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 ARG EXCLUDE_UNIT_TESTS_FROM_BUILD=${EXCLUDE_UNIT_TESTS_FROM_BUILD}
 WORKDIR /src
-COPY ["Api/Api.csproj", "Api/"]
-RUN dotnet restore "Api/Api.csproj"
 COPY . .
 WORKDIR "/src/Api"
 RUN dotnet build "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/build /p:EXCLUDE_UNIT_TESTS_FROM_BUILD=$EXCLUDE_UNIT_TESTS_FROM_BUILD
