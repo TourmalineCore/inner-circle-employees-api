@@ -4,7 +4,7 @@ using Core;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 
-namespace SalaryService.Tests;
+namespace EmployeeService.Tests;
 
 public class EmployeePersonalInformationUpdateCommandTests
 {

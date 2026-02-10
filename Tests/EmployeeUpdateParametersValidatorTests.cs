@@ -3,7 +3,7 @@ using Application.Validators;
 using Core.Entities;
 using Moq;
 
-namespace SalaryService.Tests;
+namespace EmployeeService.Tests;
 
 public class EmployeeUpdateParametersValidatorTests
 {
