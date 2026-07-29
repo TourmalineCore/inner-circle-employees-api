@@ -22,6 +22,7 @@
 	"containerEnv": {
 		"AUTH_API_ROOT_URL": "http://localhost:8506",
 		"API_ROOT_URL": "http://localhost:6506",
+		"CORS_ALLOWED_ORIGINS": "*",
 		"SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES": "true"
 	}
 }

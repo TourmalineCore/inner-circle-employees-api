@@ -11,18 +11,6 @@ using TourmalineCore.AspNetCore.JwtAuthentication.Core.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-  options.AddPolicy("SalarySpecificOrigins",
-    policy =>
-    {
-      policy
-        .WithOrigins("*")
-        .AllowAnyHeader()
-        .AllowAnyMethod();
-    });
-});
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -123,7 +111,6 @@ builder.Services.AddPersistence(configuration);
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
 app.ConfigureExceptionHandler();
 
 app.UseSwaggerUI(options =>
@@ -140,10 +127,17 @@ using (var serviceScope = app.Services.CreateScope())
 
 app.UseRouting();
 
-app.UseCors("SalarySpecificOrigins");
-
 app.UseJwtAuthentication();
 
-app.UseEndpoints(endpoints => { endpoints.MapControllers().RequireCors("SalarySpecificOrigins"); });
+var corsOptions = configuration.GetSection(nameof(CorsOptions)).Get<CorsOptions>();
+
+app.UseCors(
+  corsPolicyBuilder => corsPolicyBuilder
+      .WithOrigins(corsOptions!.AllowedOrigins)
+      .WithMethods("GET", "POST", "DELETE")
+      .WithHeaders("Authorization", "Content-Type")
+);
+
+app.MapControllers();
 
 app.Run();
